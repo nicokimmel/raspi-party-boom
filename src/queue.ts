@@ -12,6 +12,7 @@ export class Queue {
     
     constructor() {
         this.queue = [];
+        this.index = 0;
     }
     
     toString(): string {
