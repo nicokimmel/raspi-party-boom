@@ -1,39 +1,14 @@
-class Song {
-    private id: string;
-    private title: string;
-    private artist: string;
-    private duration: number;
-    
-    constructor(id: string, title: string, artist: string, duration: number) {
-        this.id = id;
-        this.title = title;
-        this.artist = artist;
-        this.duration = duration;
-    }
-    
-    toString(): string {
-        return `${this.title} by ${this.artist}`;
-    }
-    
-    getID(): string {     
-        return this.id;
-    }
-    
-    getTitle(): string {     
-        return this.title;
-    }
-    
-    getArtist(): string {     
-        return this.artist;
-    }
-    
-    getDuration(): number {     
-        return this.duration;
-    }
+type Song = {
+    id: string;
+    title: string;
+    artist: string;
+    duration: number;
+    image: string;
 }
 
 class Queue {
     private queue: Song[];
+    private index: number;
     
     constructor() {
         this.queue = [];
@@ -47,13 +22,17 @@ class Queue {
         this.queue.push(song);
     }
     
-    removeSong(song: Song): void {
+    removeSongByObject(song: Song): void {
         this.queue = this.queue.filter((s) => s !== song);
     }
     
+    removeSongByIndex(index: number): void {
+        this.queue.splice(index, 1);
+    }
+    
     nextSong(): Song | undefined {
-        let song = this.queue.shift();
-        return song;
+        this.index++;
+        return this.queue[this.index];
     }
     
     getSong(index: number): Song | undefined {

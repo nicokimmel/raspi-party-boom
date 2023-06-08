@@ -1,31 +1,31 @@
 import 'dotenv/config';
 import express from "express";
 import path from "path";
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 
 const app = express();
-const port = 3000;
 
-function init() {
-	console.log(process.env.SPOTIFY_CLIENT_ID);
-	const spotify = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID!, process.env.SPOTIFY_CLIENT_SECRET!);
-	spotify.search("Flamingo", ["track"])
-	.then((items) => {
-		console.log(items.tracks.items[0]);
-	})
-    .catch((error) => {
-     	console.log(error);
-    });
+import { Connection } from "./connection";
+const connection = new Connection(app);
+const http = connection.get();
+connection.open();
+
+import { SpotifyWrapper } from "./spotify";
+
+function init(): void {
+	const spotify = new SpotifyWrapper();
+	spotify.search("Never Gonna Give You Up", (song) => {
+		console.log(song);
+	});
 }
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
+app.get('/', (req, res): void => {
 	const filePath = path.join(__dirname, 'public', 'client.html');
 	res.sendFile(filePath);
 });
 
-app.listen(port, () => {
+http.listen(process.env.PORT!, (): void => {
 	init();
-	console.log(`Server läuft auf http://localhost:${port}`);
+	console.log(`Server läuft auf http://localhost:${process.env.PORT}`);
 });
