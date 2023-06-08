@@ -2,9 +2,9 @@
   "name": "raspi-party-boom",
   "version": "1.0.0",
   "description": "",
-  "main": "src/boom.js",
+  "main": "dist/boom.js",
   "scripts": {
-    "test": "nodemon --exec \"grunt && node dist/boom.ts\" --ignore dist/"
+    "test": "nodemon --ext \"ts,js,json\" --ignore dist/ --exec \"grunt && ts-node dist/boom.ts\""
   },
   "author": "",
   "license": "ISC",
@@ -21,7 +21,9 @@
     "socket.io": "^4.6.2"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.16",
     "grunt": "^1.6.1",
+    "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-ts": "^6.0.0-beta.22",
     "nodemon": "^2.0.22",

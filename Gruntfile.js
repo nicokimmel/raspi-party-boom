@@ -23,9 +23,14 @@ module.exports = function(grunt) {
                 src: ['src/public/ts/**/*.ts'],
                 outDir: 'dist/public/js'
             }
+        },
+        clean: {
+            js: "dist/public/js/*.js.map",
+            ts: "tscommand*"
         }
 	});
 	grunt.loadNpmTasks("grunt-contrib-copy");
-    grunt.loadNpmTasks("grunt-ts");;
-	grunt.registerTask("default", ["copy", "ts"]);
+    grunt.loadNpmTasks("grunt-ts");
+    grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.registerTask("default", ["copy", "ts", "clean"]);
 }
