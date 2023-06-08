@@ -15,10 +15,12 @@ connection.open();
 import { SpotifyWrapper } from "./spotify";
 
 function init(): void {
+	/*
 	const spotify = new SpotifyWrapper();
 	spotify.search("Never Gonna Give You Up", (song) => {
 		console.log(song);
 	});
+	*/
 }
 
 app.use(express.static(path.join(__dirname, 'public')));
