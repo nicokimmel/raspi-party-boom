@@ -4,8 +4,11 @@ import path from "path";
 
 const app = express();
 
+import { Queue } from "./queue";
+const queue = new Queue();
+
 import { Connection } from "./connection";
-const connection = new Connection(app);
+const connection = new Connection(app, queue);
 const http = connection.get();
 connection.open();
 
