@@ -1,4 +1,5 @@
-import arp from '@network-utils/arp-lookup'
+import arp from '@network-utils/arp-lookup';
+import { Song } from "./queue";
 
 export class Connection {
     

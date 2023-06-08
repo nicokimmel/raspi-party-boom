@@ -1,4 +1,5 @@
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
+import { Song } from "./queue";
 
 export class SpotifyWrapper {
     

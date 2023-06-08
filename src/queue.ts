@@ -1,4 +1,4 @@
-type Song = {
+export type Song = {
     id: string;
     title: string;
     artist: string;
@@ -6,7 +6,7 @@ type Song = {
     image: string;
 }
 
-class Queue {
+export class Queue {
     private queue: Song[];
     private index: number;
     
