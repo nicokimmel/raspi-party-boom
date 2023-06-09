@@ -36,7 +36,7 @@ textInputField.on('input', function (e) {
     clearTimeout(timeout)
     const textInput = textInputField.val()
     timeout == setTimeout(() => spotifySearch(textInput), searchDelay)
-});
+})
 
 function addEntryToList(song, index) {
 
@@ -44,7 +44,7 @@ function addEntryToList(song, index) {
         <div class="m-0">
         <div class="row g-0">
             <div class="col-3">
-            <img src="` + song.image + `" style="width: 100%; height: 100%" class="rounded-start" onerror='this.src="img/default.jpg"'>
+            <img src="` + song.image + `" style="width: 100% height: 100%" class="rounded-start" onerror='this.src="img/default.jpg"'>
             </div>
             <div class="col-7">
             <div class="m-2">
@@ -70,7 +70,7 @@ function addEntryToList(song, index) {
 
 function deleteCurrentEntries() {
 
-    $("ul#searchResultList").empty();
+    $("ul#searchResultList").empty()
 
 }
 
