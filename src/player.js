@@ -11,3 +11,5 @@ class Player {
         return 420;
     }
 }
+
+module.exports = { Player };
