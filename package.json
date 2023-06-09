@@ -17,11 +17,14 @@
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "jquery": "^3.7.0",
+    "jquery-mobile": "^1.5.0-alpha.1",
+    "moment": "^2.29.4",
     "socket.io": "^4.6.2"
   },
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
     "nodemon": "^2.0.22"
   }
 }
