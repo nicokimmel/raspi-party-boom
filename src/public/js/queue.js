@@ -27,6 +27,19 @@ socket.on('tick', (song, time, queue) => {
 });
 
 
+$('#playButton').on("click", function () {
+    socket.emit('spotify-play')    
+});
+
+$('#skipForwardButton').on("click", function () {
+    socket.emit('spotify-resume')    
+});
+
+$('#skipBackwardButton').on("click", function () {
+    socket.emit('spotify-previous')    
+});
+
+
 function refreshProgressbar(song, time) {
 
     currentSongPlaytimeLabel.text(formatMilliseconds(time))
