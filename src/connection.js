@@ -18,9 +18,9 @@ class Connection {
         this.io.on("connection", (socket) => {
             console.log("a user connected");
             
-            arp.toMAC(socket.handshake.address)
-            .then((mac) => {
-                console.log(mac);
+            let address = socket.handshake.address;
+            this.macLookup(address, (mac, ip) => {
+               console.log(ip + " connected as " + mac);
             });
             
             socket.on("disconnect", () => {
@@ -37,6 +37,16 @@ class Connection {
                 this.queue.addSong(song);
                 console.log("Added song " + song.title + " to queue");
             });
+        });
+    }
+    
+    macLookup(address, callback) {
+        if(address.startsWith('::ffff:')) {
+            address = address.substring(7)
+        }
+        arp.toMAC(address)
+        .then((mac) => {
+            callback(mac, address);
         });
     }
 }

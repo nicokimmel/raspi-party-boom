@@ -9,17 +9,18 @@ class SpotifyWrapper {
     search(query, callback) {
         this.api.search(query, ["track"])
         .then((items) => {
-            //console.log(items.tracks.items[0].name + " - " + items.tracks.items[0].artists[0].name);
-            
-            const song = {
-                id: items.tracks.items[0].id,
-                title: items.tracks.items[0].name,
-                artist: items.tracks.items[0].artists[0].name,
-                duration: items.tracks.items[0].duration_ms,
-                image: "https://upload.wikimedia.org/wikipedia/en/thumb/3/34/RickAstleyNeverGonnaGiveYouUp7InchSingleCover.jpg/220px-RickAstleyNeverGonnaGiveYouUp7InchSingleCover.jpg"
-            };
-            
-            callback(song);
+            let songList = [];
+            for(let i = 0; i < items.tracks.items.length; i++) {
+                const song = {
+                    id: items.tracks.items[i].id,
+                    title: items.tracks.items[i].name,
+                    artist: items.tracks.items[i].artists[0].name,
+                    duration: items.tracks.items[i].duration_ms,
+                    image: items.tracks.items[i].album.images[i]?.url ?? ""
+                };
+                songList.push(song);
+            }
+            callback(songList);
         })
         .catch((error) => {
             console.log(error);
