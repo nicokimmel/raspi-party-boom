@@ -1,16 +1,15 @@
 const arp = require('@network-utils/arp-lookup')
-const { SpotifyWrapper } = require("./spotify.js")
 
 var TICK_RATE = 500
 
 class Connection {
 
-    constructor(app, player, queue) {
+    constructor(app, player, spotify, queue) {
         this.http = require("http").Server(app)
         this.io = require("socket.io")(this.http)
         this.player = player
         this.queue = queue
-        this.spotify = new SpotifyWrapper()
+        this.spotify = spotify
     }
 
     get() {

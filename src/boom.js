@@ -8,31 +8,35 @@ const { SpotifyWrapper } = require("./spotify.js")
 const spotify = new SpotifyWrapper()
 
 const { Player } = require("./player.js")
-const player = new Player()
+const player = new Player(spotify)
 
 const { Queue } = require("./queue.js")
 const queue = new Queue()
 
 const { Connection } = require("./connection.js")
-const connection = new Connection(app, player, queue)
+const connection = new Connection(app, player, spotify, queue)
 const http = connection.get()
 connection.open()
 connection.tick()
 
 function init() {
-	/*
-	const spotify = new SpotifyWrapper()
-	spotify.search("Never Gonna Give You Up", (song) => {
-		console.log(song)
-	})
-	*/
+
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-	const filePath = path.join(__dirname, 'public', 'client.html')
-	res.sendFile(filePath)
+
+	connection.lookupMac(req.ip, (mac, ip) => {
+
+		let isAdmin = toString(mac) == toString(process.env.ADMIN_MAC)
+
+		if (req.query.code) {
+			spotify.setAccessToken(req.query.code)
+		}
+
+		res.render(path.join(__dirname, 'public', 'client.ejs'), { isAdmin: isAdmin, spotifyURL: spotify.getLoginURL() })
+	});
 })
 
 http.listen(process.env.PORT, () => {
