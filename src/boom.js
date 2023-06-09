@@ -7,11 +7,14 @@ const app = express();
 const { SpotifyWrapper } = require("./spotify.js");
 const spotify = new SpotifyWrapper();
 
+const { Player } = require("./player.js");
+const player = new Player();
+
 const { Queue } = require("./queue.js");
 const queue = new Queue();
 
 const { Connection } = require("./connection.js");
-const connection = new Connection(app, queue);
+const connection = new Connection(app, player, queue);
 const http = connection.get();
 connection.open();
 
