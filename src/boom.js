@@ -33,6 +33,8 @@ app.get('/', (req, res) => {
 
 		if (req.query.code) {
 			spotify.setAccessToken(req.query.code)
+			res.redirect("/")
+			return
 		}
 
 		res.render(path.join(__dirname, 'public', 'client.ejs'), { isAdmin: isAdmin, spotifyURL: spotify.getLoginURL() })
