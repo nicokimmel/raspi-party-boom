@@ -5,6 +5,10 @@ const currentSongPlaytimeLabel = $('#currentSongPlaytimeLabel')
 const currentSongLengthLabel = $('#currentSongLengthLabel')
 const currentSongImage = $('#currentSongImage')
 
+const defaultSongName = "No song playing"
+const defaultSongArtist = "No artist involved"
+
+
 let currentSong
 let currentQueue
 
@@ -43,16 +47,24 @@ function removeSongFromQueue(index) {
 }
 
 function refreshProgressbar(song, time) {
-
-    currentSongPlaytimeLabel.text(formatMilliseconds(time))
-    currentSongLengthLabel.text(formatMilliseconds(song.duration))
+    if (song != null) {
+        currentSongPlaytimeLabel.text(formatMilliseconds(time))
+        currentSongLengthLabel.text(formatMilliseconds(song.duration))
+    } else {
+        currentSongPlaytimeLabel.text('00:00')
+        currentSongLengthLabel.text('00:00')
+    }
 }
 
 function refreshCurrentTitle(song) {
-
-    currentTitleTextLabel.text(song.title)
-    currentArtistTextLabel.text(song.artist)
-    currentSongImage.attr('src', '' + song.image)
+    if(song != null) {
+        currentTitleTextLabel.text(song.title)
+        currentArtistTextLabel.text(song.artist)
+        currentSongImage.attr('src', '' + song.image)
+    } else {
+        currentTitleTextLabel.text(defaultSongName)
+        currentArtistTextLabel.text(defaultSongArtist)
+    }
 
 }
 
