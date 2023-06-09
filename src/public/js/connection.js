@@ -21,6 +21,13 @@ socket.on('spotify-search', (songList) => {
     });
 });
 
+$('#Searchbutton').on('click', function (e) {
+    console.log("Focus")
+    setTimeout(function () {
+        $('#searchTextInput').focus()
+    }, 500)
+})
+
 function spotifyAddToQueue(song) {
     socket.emit('spotify-queue-add', song)
 }
