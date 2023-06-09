@@ -52,22 +52,30 @@ function refreshQueue(songList) {
     };
 }
 
-function formatMilliseconds(mill) {
+function formatMilliseconds(milliseconds) {
+    
+    moment.duration.fn.format = function () {
+        const minutes = Math.floor(this.asMinutes()).toString().padStart(2, '0');
+        const seconds = Math.floor(this.seconds()).toString().padStart(2, '0');
+        return `${minutes}:${seconds}`;
+    };
 
-    let min = Math.floor(mill / 1000 / 60);
-    let seconds = Math.floor(mill / 1000 - min * 60);
-    return min + ':' + seconds
+    const duration = moment.duration(milliseconds);
+
+    const formattedTime = duration.format();
+
+    return formattedTime;
 }
 
 function addEntryToQueue(song) {
 
-    $("#queueList").append(`<li class="border rounded list-group-item m-1 p-0">
+    $("#queueList").append(`<li class="border rounded list-group-item m-0 mt-2 p-0">
         <div class="m-0">
             <div class="row g-0">
                 <div class="col-2">
                 <img src="` + song.image + `" style="width: 100%; height: 100%" class="rounded-start" onerror='this.src="img/default.jpg"'>
                 </div>
-                <div class="col-10">
+                <div class="col-8">
                     <div class="m-2">
                         <div class="card-text">
                             <div class="text-truncate">
@@ -77,7 +85,12 @@ function addEntryToQueue(song) {
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>    
+                <div class="col-2">
+                    <button type="button" class="btn addToQueueButton" data-bs-dismiss="offcanvas" style="width: 100%; height: 100%">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>            
             </div>
         </div>
     </li>`)
