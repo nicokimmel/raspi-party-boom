@@ -43,7 +43,7 @@ $('#searchTextInput').on('keyup', function (e) {
 
 function addEntryToList(song, index) {
 
-    $("ul#searchResultList").append(`<li class="border rounded list-group-item m-1 p-0">
+    $("ul#searchResultList").append(`<li class="border rounded list-group-item m-0 mt-2 p-0">
         <div class="m-0">
             <div class="row g-0">
                 <div class="col-3">
