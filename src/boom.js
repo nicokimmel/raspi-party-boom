@@ -17,6 +17,7 @@ const { Connection } = require("./connection.js");
 const connection = new Connection(app, player, queue);
 const http = connection.get();
 connection.open();
+connection.tick();
 
 function init() {
 	/*
