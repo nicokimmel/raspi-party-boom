@@ -55,7 +55,7 @@
           <div class="col">
             <button type="button" class="btn btn-lg w-100 text-center"><i class="bi bi-skip-forward"></i></button>
           </div>
-    
+
         </div>
       </div>
     </div>
@@ -78,8 +78,7 @@
       <form>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Suche</label>
-          <input type="text" class="form-control" id="searchTextInput" value=""
-            aria-describedby="Song or album name">
+          <input type="text" class="form-control" id="searchTextInput" value="" aria-describedby="Song or album name">
           <div id="emailHelp" class="form-text">Suche nach einem Lied Titel.</div>
         </div>
       </form>
@@ -109,32 +108,33 @@
   <!-- Off canvas for the admin pannel to the right -->
   <% if (isAdmin) { %>
     <%- include('../private/admin.ejs') %>
-  <% } %>
+      <% } %>
 
-  <!-- Bottom navigation -->
-  <div class="container text-center fixed-bottom bg-dark-subtle">
-    <div class="row m-1">
+        <!-- Bottom navigation -->
+        <div class="container text-center fixed-bottom bg-dark-subtle">
+          <div class="row m-1">
 
-      <div class="col">
-        <button type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-          aria-controls="offcanvasExample" class="btn btn-lg"><i class="bi bi-search"></i></button>
-      </div>
-      <div class="col">
-        <button type="button" class="btn btn-lg"><i class="bi bi-house"></i></button>
-      </div>
-      <div class="col">
-        <button type="button" data-bs-toggle="offcanvas" href="#offCanvasAdmin" role="button"
-          aria-controls="offCanvasAdmin" class="btn btn-lg<% if (!isAdmin) { %> disabled<% } %>"><i class="bi bi-gear"></i></button>
-      </div>
+            <div class="col">
+              <button type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                aria-controls="offcanvasExample" class="btn btn-lg"><i class="bi bi-search"></i></button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-lg"><i class="bi bi-house"></i></button>
+            </div>
+            <div class="col">
+              <button type="button" data-bs-toggle="offcanvas" href="#offCanvasAdmin" role="button"
+                aria-controls="offCanvasAdmin" class="btn btn-lg<% if (!isAdmin) { %> disabled<% } %>"><i
+                  class="bi bi-gear"></i></button>
+            </div>
 
-    </div>
-  </div>
+          </div>
+        </div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/moment.js"></script>
-  <script src="js/boom.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/boom.min.js"></script>
 
 </body>
 
