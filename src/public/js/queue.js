@@ -43,7 +43,6 @@ function refreshCurrentTitle(song) {
 
 function refreshQueue(songList) {
 
-    console.debug("REFRESH")
     deleteCurrentQueueEntries()
 
     for (let i = 0; i < songList.length; i++) {
@@ -62,7 +61,6 @@ function formatMilliseconds(mill) {
 
 function addEntryToQueue(song) {
 
-    console.log("Add Song")
     $("#queueList").append(`<li class="border rounded list-group-item m-1 p-0">
         <div class="m-0">
             <div class="row g-0">
@@ -93,7 +91,7 @@ function deleteCurrentQueueEntries() {
 }
 
 function arraysEqual(a, b) {
-    
+
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
