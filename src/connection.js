@@ -19,15 +19,14 @@ class Connection {
 
     open() {
         this.io.on("connection", (socket) => {
-            console.log("a user connected");
 
             let address = socket.handshake.address;
             this.lookupMac(address, (mac, ip) => {
-                console.log(ip + " connected as " + mac);
+                console.log("[CONNECTION] " + ip + " connected as " + mac);
             });
 
             socket.on("disconnect", () => {
-                console.log("user disconnected");
+                console.log("[CONNECTION] User disconnected");
             });
 
             socket.on("spotify-search", (query) => {
@@ -80,7 +79,7 @@ class Connection {
             socket.on("spotify-seek", (time) => {
                 this.player.seek(time);
             });
-            
+
             socket.on("spotify-loop", () => {
                 this.player.toggleLoop();
             });
