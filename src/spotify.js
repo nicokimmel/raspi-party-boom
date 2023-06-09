@@ -15,26 +15,23 @@ class SpotifyWrapper {
     }
 
     search(query, callback) {
-        /*
-        this.api.search(query, ["track"])
-            .then((items) => {
+        this.api.searchTracks(query)
+            .then(function (data) {
                 let songList = []
-                for (let i = 0; i < items.tracks.items.length; i++) {
+                for (let i = 0; i < data.body.tracks.items.length; i++) {
                     const song = {
-                        id: items.tracks.items[i].id,
-                        title: items.tracks.items[i].name,
-                        artist: items.tracks.items[i].artists[0].name,
-                        duration: items.tracks.items[i].duration_ms,
-                        image: items.tracks.items[i].album.images[0]?.url ?? ""
+                        id: data.body.tracks.items[i].id,
+                        title: data.body.tracks.items[i].name,
+                        artist: data.body.tracks.items[i].artists[0].name,
+                        duration: data.body.tracks.items[i].duration_ms,
+                        image: data.body.tracks.items[i].album.images[0]?.url ?? ""
                     }
                     songList.push(song)
                 }
                 callback(songList)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        */
+            }, function (err) {
+                console.error(err);
+            });
     }
 
     getLoginURL() {

@@ -66,18 +66,8 @@ function refreshQueue(songList) {
 }
 
 function formatMilliseconds(milliseconds) {
-    
-    /*moment.duration.fn.format = function () {
-        const minutes = Math.floor(this.asMinutes()).toString().padStart(2, '0');
-        const seconds = Math.floor(this.seconds()).toString().padStart(2, '0');
-        return `${minutes}:${seconds}`;
-    };
-
-    const duration = moment.duration(milliseconds);
-
-    const formattedTime = duration.format();*/
-
-    return milliseconds;
+    let timestamp = moment.utc(milliseconds).format('mm:ss');
+    return timestamp
 }
 
 function addEntryToQueue(song) {
