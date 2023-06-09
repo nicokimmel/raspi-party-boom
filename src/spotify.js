@@ -1,20 +1,17 @@
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
-import { Song } from "./queue";
+const { SpotifyApi } = require("@spotify/web-api-ts-sdk");
 
-export class SpotifyWrapper {
-    
-    private api: SpotifyApi;
-    
+class SpotifyWrapper {
+
     constructor() {
-        this.api = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID!, process.env.SPOTIFY_CLIENT_SECRET!);
+        this.api = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
     }
     
-    search(query: string, callback: (song: Song) => void) {
+    search(query, callback) {
         this.api.search(query, ["track"])
         .then((items) => {
             //console.log(items.tracks.items[0].name + " - " + items.tracks.items[0].artists[0].name);
             
-            const song: Song = {
+            const song = {
                 id: items.tracks.items[0].id,
                 title: items.tracks.items[0].name,
                 artist: items.tracks.items[0].artists[0].name,
@@ -29,3 +26,5 @@ export class SpotifyWrapper {
         });
     }
 }
+
+module.exports = { SpotifyWrapper };

@@ -1,20 +1,21 @@
-import 'dotenv/config';
-import express from "express";
-import path from "path";
+require("dotenv").config();
+const express = require("express");
+const path = require("path");
 
 const app = express();
 
-import { Queue } from "./queue";
+const { SpotifyWrapper } = require("./spotify.js");
+const spotify = new SpotifyWrapper();
+
+const { Queue } = require("./queue.js");
 const queue = new Queue();
 
-import { Connection } from "./connection";
+const { Connection } = require("./connection.js");
 const connection = new Connection(app, queue);
 const http = connection.get();
 connection.open();
 
-import { SpotifyWrapper } from "./spotify";
-
-function init(): void {
+function init() {
 	/*
 	const spotify = new SpotifyWrapper();
 	spotify.search("Never Gonna Give You Up", (song) => {
@@ -25,12 +26,12 @@ function init(): void {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res): void => {
+app.get('/', (req, res) => {
 	const filePath = path.join(__dirname, 'public', 'client.html');
 	res.sendFile(filePath);
 });
 
-http.listen(process.env.PORT!, (): void => {
+http.listen(process.env.PORT, () => {
 	init();
 	console.log(`Server läuft auf http://localhost:${process.env.PORT}`);
 });
