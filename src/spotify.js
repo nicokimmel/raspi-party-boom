@@ -1,14 +1,17 @@
 const SpotifyWebApi = require("spotify-web-api-node")
 
-var SCOPES = ['user-read-private', 'user-read-email']
+var SCOPES = ['user-modify-playback-state', 'user-read-playback-state', 'user-read-currently-playing', "playlist-modify-public", "playlist-modify-private"]
 var REDIRECT_URI = 'http://localhost:3000'
 
 class SpotifyWrapper {
 
     constructor() {
 
-        this.api = new SpotifyWebApi({ redirectUri: REDIRECT_URI, clientId: process.env.SPOTIFY_CLIENT_ID })
+        this.api = new SpotifyWebApi({ clientId: process.env.SPOTIFY_CLIENT_ID, clientSecret: process.env.SPOTIFY_CLIENT_SECRET, redirectUri: REDIRECT_URI })
         this.url = this.api.createAuthorizeURL(SCOPES)
+
+
+
     }
 
     search(query, callback) {
@@ -39,20 +42,36 @@ class SpotifyWrapper {
     }
 
     setAccessToken(code) {
-        spotifyApi.authorizationCodeGrant(code).then(
+        let self = this
+        this.api.authorizationCodeGrant(code).then(
             function (data) {
-                console.log('The token expires in ' + data.body['expires_in'])
-                console.log('The access token is ' + data.body['access_token'])
-                console.log('The refresh token is ' + data.body['refresh_token'])
-
-                // Set the access token on the API object to use it in later calls
-                spotifyApi.setAccessToken(data.body['access_token'])
-                spotifyApi.setRefreshToken(data.body['refresh_token'])
+                self.api.setAccessToken(data.body['access_token'])
+                self.api.setRefreshToken(data.body['refresh_token'])
+                console.log("[SPOTIFY] Access token set. Token will expire in " + data.body['expires_in'] + " seconds.")
             },
             function (err) {
                 console.log('Something went wrong!', err)
             }
         )
+    }
+
+    getPlaybackDevice(callback) {
+        this.api.getMyDevices()
+            .then(function (data) {
+                let availableDevices = data.body.devices;
+                console.log(availableDevices);
+                callback(availableDevices[0].id)
+            }, function (err) {
+                console.log('Something went wrong!', err);
+            });
+    }
+
+    play(song) {
+        this.getPlaybackDevice((deviceId) => {
+            if (deviceId) {
+                this.api.play({ uris: [`spotify:track:${song.id}`], device_id: deviceId });
+            }
+        })
     }
 }
 

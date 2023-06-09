@@ -1,6 +1,6 @@
 class Player {
-    constructor() {
-        this.currentSong = null
+    constructor(spotify) {
+        this.spotify = spotify
 
         this.currentSong = {
             id: '4cOdK2wGLETKBW3PvgPWqT',
