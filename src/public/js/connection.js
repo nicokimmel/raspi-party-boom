@@ -1,21 +1,29 @@
 
-let socket = io();
-let timeout = null;
+let socket = io()
+let timeout = null
 
 // Time it takes for the search to start after the last keyinput
-let searchDelay = 500;
+let searchDelay = 500
 
 let textInputField = $('#searchTextInput')
 
-socket.on('spotify-search', (songList) => {
+let songBuffer
 
+socket.on('spotify-search', (songList) => {
+    songBuffer = songList 
     deleteCurrentEntries()
     console.log("Emptied list")
 
-    songList.forEach(song => {
+    for(let i = 0; i < songList.length; i++) {
 
-        addEntryToList(song)        
+        addEntryToList(songList[i], i)        
 
+    };
+
+    // Add logic to newly created queue buttons
+    $('#searchResultList').find('.addToQueueButton').on( "click", function() {
+        let index = parseInt($(this).siblings('.index').val())
+        console.log("Das Lied " + songBuffer[index].title + " Wird übernommen.")
     });
 });
 
@@ -30,7 +38,7 @@ textInputField.on('input', function (e) {
     timeout == setTimeout(() => spotifySearch(textInput), searchDelay)
 });
 
-function addEntryToList(song) {
+function addEntryToList(song, index) {
 
     $("ul#searchResultList").append(` <li class="border rounded list-group-item m-1 p-0">
         <div class="m-0">
@@ -50,7 +58,8 @@ function addEntryToList(song) {
             </div>
             </div>
             <div class="col-2">
-            <button type="button" class="btn" style="width: 100%; height: 100%"><i class="bi bi-arrow-right"></i></button>
+            <button type="button" class="btn addToQueueButton" data-bs-dismiss="offcanvas" style="width: 100%; height: 100%"><i class="bi bi-arrow-right"></i></button>
+            <input type="hidden" value="${index}" class="index"></input>
             </div>
         </div>
         
