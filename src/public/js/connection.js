@@ -1,7 +1,4 @@
-
 let socket = io()
-
-let textInputField = $('#searchTextInput')
 
 let songBuffer
 
@@ -37,11 +34,10 @@ function spotifySearch(query) {
 }
 
 let inputTimeout = null
-textInputField.on('keyup', function (e) {
+$('#searchTextInput').on('keyup', function (e) {
     clearTimeout(inputTimeout);
     inputTimeout = setTimeout(function () {
-        spotifySearch(textInputField.val())
-        console.log("stopped input")
+        spotifySearch($('#searchTextInput').val())
     }, 500)
 })
 
