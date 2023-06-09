@@ -1,42 +1,34 @@
-export type Song = {
-    id: string;
-    title: string;
-    artist: string;
-    duration: number;
-    image: string;
-}
-
-export class Queue {
-    private queue: Song[];
-    private index: number;
+class Queue {
     
     constructor() {
         this.queue = [];
         this.index = 0;
     }
     
-    toString(): string {
+    toString() {
         return this.queue.map((s) => s.toString()).join(", ");
     }
     
-    addSong(song: Song): void {
+    addSong(song) {
         this.queue.push(song);
     }
     
-    removeSongByObject(song: Song): void {
+    removeSongByObject(song) {
         this.queue = this.queue.filter((s) => s !== song);
     }
     
-    removeSongByIndex(index: number): void {
+    removeSongByIndex(index) {
         this.queue.splice(index, 1);
     }
     
-    nextSong(): Song | undefined {
+    nextSong() {
         this.index++;
         return this.queue[this.index];
     }
     
-    getSong(index: number): Song | undefined {
+    getSong(index) {
         return this.queue[index];
     }
 }
+
+module.exports = { Queue };
