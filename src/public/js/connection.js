@@ -24,7 +24,6 @@ socket.on('spotify-search', (songList) => {
     $('#searchResultList').find('.addToQueueButton').on( "click", function() {
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = songBuffer[index]
-        console.log("Das Lied " + selectedSong.title + " Wird übernommen.")
         spotifyAddToQueue(selectedSong)
     });
 });
