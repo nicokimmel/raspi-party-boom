@@ -54,7 +54,7 @@ function refreshQueue(songList) {
 
 function formatMilliseconds(milliseconds) {
     
-    moment.duration.fn.format = function () {
+    /*moment.duration.fn.format = function () {
         const minutes = Math.floor(this.asMinutes()).toString().padStart(2, '0');
         const seconds = Math.floor(this.seconds()).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
@@ -62,9 +62,9 @@ function formatMilliseconds(milliseconds) {
 
     const duration = moment.duration(milliseconds);
 
-    const formattedTime = duration.format();
+    const formattedTime = duration.format();*/
 
-    return formattedTime;
+    return milliseconds;
 }
 
 function addEntryToQueue(song) {
