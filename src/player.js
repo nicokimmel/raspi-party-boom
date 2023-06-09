@@ -1,15 +1,12 @@
+const TICK_RATE = 1000
+
 class Player {
-    constructor(spotify) {
+    constructor(spotify, queue) {
         this.spotify = spotify
-
-        this.currentSong = {
-            id: '4cOdK2wGLETKBW3PvgPWqT',
-            title: 'Never Gonna Give You Up',
-            artist: 'Rick Astley',
-            duration: 213573,
-            image: 'https://i.scdn.co/image/ab67616d0000b273baf89eb11ec7c657805d2da0'
-          }
-
+        this.queue = queue
+        this.currentSong = null
+        this.playing = false
+        this.time = 0
         this.loop = false
     }
 
@@ -18,19 +15,25 @@ class Player {
     }
 
     getCurrentTime() {
-        return 420
+        return this.time
     }
 
     play(song) {
+        this.playing = true
         this.currentSong = song
+        this.spotify.play(song)
         console.log("[PLAYER] Playing song " + song.title)
     }
 
     pause() {
+        this.playing = false
+        this.spotify.pause()
         console.log("[PLAYER] Pausing song ")
     }
 
     resume() {
+        this.playing = true
+        this.spotify.resume()
         console.log("[PLAYER] Resuming song ")
     }
 
@@ -41,6 +44,26 @@ class Player {
     toggleLoop() {
         this.loop = !this.loop
         console.log("[PLAYER] Looping is now " + this.loop)
+    }
+
+    tick() {
+        setInterval(() => {
+            if (!this.currentSong || !this.playing) { return }
+
+            this.time++;
+            console.log("[PLAYER] " + this.time + "/" + this.currentSong.duration / 1000)
+
+            if (this.time > this.currentSong.duration / 1000 + 1) {
+                this.time = 0
+                let song = this.queue.nextSong()
+                if (!song) {
+                    this.playing = false
+                    this.time = 0
+                    return
+                }
+                this.play(song)
+            }
+        }, TICK_RATE)
     }
 }
 

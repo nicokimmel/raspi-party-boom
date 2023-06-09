@@ -10,10 +10,12 @@ let currentQueue
 
 socket.on('tick', (song, time, queue) => {
 
+    if (!song) { return }
+
     refreshProgressbar(song, time)
 
     // Refresh Song only on Change
-    if (currentSong != song) {
+    if (currentSong !== song) {
         refreshCurrentTitle(song)
         currentSong = song
     }

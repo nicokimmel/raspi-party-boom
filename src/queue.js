@@ -2,7 +2,7 @@ class Queue {
 
     constructor() {
         this.queue = []
-        this.index = 0
+        this.index = -1
     }
 
     toString() {
@@ -54,12 +54,18 @@ class Queue {
 
     nextSong() {
         console.log("[QUEUE] Next song")
+        if (!this.queue[this.index + 1]) {
+            return null
+        }
         this.index++
         return this.queue[this.index]
     }
 
     previousSong() {
         console.log("[QUEUE] Previous song")
+        if (!this.queue[this.index - 1]) {
+            return null
+        }
         this.index--
         return this.queue[this.index]
     }

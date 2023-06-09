@@ -1,6 +1,6 @@
 const arp = require('@network-utils/arp-lookup')
 
-var TICK_RATE = 500
+const TICK_RATE = 500
 
 class Connection {
 
@@ -29,6 +29,7 @@ class Connection {
             })
 
             socket.on("spotify-search", (query) => {
+                if (!this.spotify.isReady()) { return }
                 this.spotify.search(query, (songList) => {
                     socket.emit("spotify-search", songList)
                 })
@@ -44,42 +45,52 @@ class Connection {
 
             socket.on("spotify-queue-add", (song) => {
                 this.queue.addSong(song)
+                if(!this.player.getCurrentSong()) {
+                    this.queue.nextSong()
+                    this.player.play(song)
+                }
             })
 
             socket.on("spotify-queue-remove", (index) => {
                 this.queue.removeSongByIndex(index)
             })
-            
+
             socket.on("spotify-shuffle", () => {
                 this.queue.shuffle()
             })
 
             socket.on("spotify-next", () => {
+                if (!this.spotify.isReady()) { return }
                 const song = this.queue.nextSong()
                 socket.emit("spotify-next", song)
                 this.player.play(song)
             })
 
             socket.on("spotify-previous", () => {
+                if (!this.spotify.isReady()) { return }
                 const song = this.queue.previousSong()
                 socket.emit("spotify-next", song)
                 this.player.play(song)
             })
 
             socket.on("spotify-play", (index) => {
+                if (!this.spotify.isReady()) { return }
                 let song = this.queue.getSongByIndex(index)
                 this.player.play(song)
             })
 
             socket.on("spotify-pause", () => {
+                if (!this.spotify.isReady()) { return }
                 this.player.pause()
             })
 
             socket.on("spotify-resume", () => {
+                if (!this.spotify.isReady()) { return }
                 this.player.resume()
             })
 
             socket.on("spotify-seek", (time) => {
+                if (!this.spotify.isReady()) { return }
                 this.player.seek(time)
             })
 

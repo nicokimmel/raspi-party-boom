@@ -7,11 +7,12 @@ const app = express()
 const { SpotifyWrapper } = require("./spotify.js")
 const spotify = new SpotifyWrapper()
 
-const { Player } = require("./player.js")
-const player = new Player(spotify)
-
 const { Queue } = require("./queue.js")
 const queue = new Queue()
+
+const { Player } = require("./player.js")
+const player = new Player(spotify, queue)
+player.tick()
 
 const { Connection } = require("./connection.js")
 const connection = new Connection(app, player, spotify, queue)
@@ -19,8 +20,12 @@ const http = connection.get()
 connection.open()
 connection.tick()
 
-function init() {
+function onServerStarted() {
 
+}
+
+function onSpotifyReady() {
+	spotify.getPlaybackDevice()
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -32,7 +37,7 @@ app.get('/', (req, res) => {
 		let isAdmin = toString(mac) == toString(process.env.ADMIN_MAC)
 
 		if (req.query.code) {
-			spotify.setAccessToken(req.query.code)
+			spotify.setAccessToken(req.query.code, onSpotifyReady)
 			res.redirect("/")
 			return
 		}
@@ -42,6 +47,6 @@ app.get('/', (req, res) => {
 })
 
 http.listen(process.env.PORT, () => {
-	init()
+	onServerStarted()
 	console.log(`Server läuft auf http://localhost:${process.env.PORT}`)
 })
