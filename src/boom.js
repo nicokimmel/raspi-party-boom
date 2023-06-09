@@ -26,13 +26,21 @@ function init() {
 		console.log(song)
 	})
 	*/
+	console.log(spotify.getLoginURL())
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
+	
+	
+	
 	const filePath = path.join(__dirname, 'public', 'client.html')
 	res.sendFile(filePath)
+
+	if (req.query.code) {
+		spotify.setAccessToken(req.query.code)
+	}
 })
 
 http.listen(process.env.PORT, () => {
