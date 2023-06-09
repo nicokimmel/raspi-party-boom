@@ -153,25 +153,9 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-    <script>
+    <script src="js/connection.js"></script>
 
-      const socket = io();
       
-      let textInputField = $( '#searchTextInput' ) 
-
-      textInputField.on('input',function(e){
-        doSearch()
-      });
-
-      function doSearch() {
-        
-        let searchInput = textInputField.val()	      
-        console.log("Search for: " + searchInput)
-
-
-        let o = socket.emit("spotify-search", "Never Gonna")
-        console.log("Wörks " + o)
-      }
     </script>
 
 
