@@ -1,15 +1,15 @@
-const { SpotifyApi } = require("@spotify/web-api-ts-sdk");
+const { SpotifyApi } = require("@spotify/web-api-ts-sdk")
 
 class SpotifyWrapper {
 
     constructor() {
-        this.api = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
+        this.api = SpotifyApi.withClientCredentials(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET)
     }
 
     search(query, callback) {
         this.api.search(query, ["track"])
             .then((items) => {
-                let songList = [];
+                let songList = []
                 for (let i = 0; i < items.tracks.items.length; i++) {
                     const song = {
                         id: items.tracks.items[i].id,
@@ -17,15 +17,15 @@ class SpotifyWrapper {
                         artist: items.tracks.items[i].artists[0].name,
                         duration: items.tracks.items[i].duration_ms,
                         image: items.tracks.items[i].album.images[0]?.url ?? ""
-                    };
-                    songList.push(song);
+                    }
+                    songList.push(song)
                 }
-                callback(songList);
+                callback(songList)
             })
             .catch((error) => {
-                console.log(error);
-            });
+                console.log(error)
+            })
     }
 }
 
-module.exports = { SpotifyWrapper };
+module.exports = { SpotifyWrapper }
