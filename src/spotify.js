@@ -16,7 +16,7 @@ class SpotifyWrapper {
                         title: items.tracks.items[i].name,
                         artist: items.tracks.items[i].artists[0].name,
                         duration: items.tracks.items[i].duration_ms,
-                        image: items.tracks.items[i].album.images[i]?.url ?? ""
+                        image: items.tracks.items[i].album.images[0]?.url ?? ""
                     };
                     songList.push(song);
                 }
