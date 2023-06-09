@@ -19,7 +19,7 @@ socket.on('tick', (song, time, queue) => {
     }
 
     // Refresh Queue only on change
-    if (!arraysEqual(currentQueue, queue)) {
+    if (!songArraysEqual(currentQueue, queue)) {
         refreshQueue(queue)
         currentQueue = queue
     }
@@ -116,7 +116,7 @@ function deleteCurrentQueueEntries() {
 
 }
 
-function arraysEqual(a, b) {
+function songArraysEqual(a, b) {
 
     if (a === b) return true;
     if (a == null || b == null) return false;
