@@ -5,6 +5,10 @@ const currentSongPlaytimeLabel = $('#currentSongPlaytimeLabel')
 const currentSongLengthLabel = $('#currentSongLengthLabel')
 const currentSongImage = $('#currentSongImage')
 
+const defaultSongName = "No song playing"
+const defaultSongArtist = "No artist involved"
+
+
 let currentSong
 let currentQueue
 
@@ -21,25 +25,48 @@ socket.on('tick', (song, time, queue) => {
     }
 
     // Refresh Queue only on change
-    if (!arraysEqual(currentQueue, queue)) {
+    if (!songArraysEqual(currentQueue, queue)) {
         refreshQueue(queue)
         currentQueue = queue
     }
 
 });
 
+$('#playButton').on("click", function () {
+    socket.emit('spotify-resume')    
+});
+
+$('#skipForwardButton').on("click", function () {
+    socket.emit('spotify-next')    
+});
+
+$('#skipBackwardButton').on("click", function () {
+    socket.emit('spotify-previous')    
+});
+
+function removeSongFromQueue(index) {
+    socket.emit('spotify-queue-remove', index)    
+}
 
 function refreshProgressbar(song, time) {
-
-    currentSongPlaytimeLabel.text(formatMilliseconds(time))
-    currentSongLengthLabel.text(formatMilliseconds(song.duration))
+    if (song != null) {
+        currentSongPlaytimeLabel.text(formatMilliseconds(time))
+        currentSongLengthLabel.text(formatMilliseconds(song.duration))
+    } else {
+        currentSongPlaytimeLabel.text('00:00')
+        currentSongLengthLabel.text('00:00')
+    }
 }
 
 function refreshCurrentTitle(song) {
-
-    currentTitleTextLabel.text(song.title)
-    currentArtistTextLabel.text(song.artist)
-    currentSongImage.attr('src', '' + song.image)
+    if(song != null) {
+        currentTitleTextLabel.text(song.title)
+        currentArtistTextLabel.text(song.artist)
+        currentSongImage.attr('src', '' + song.image)
+    } else {
+        currentTitleTextLabel.text(defaultSongName)
+        currentArtistTextLabel.text(defaultSongArtist)
+    }
 
 }
 
@@ -52,6 +79,13 @@ function refreshQueue(songList) {
         addEntryToQueue(songList[i], i)
 
     };
+
+    $('#queueList').find('.removeFromQueueButton').on('click', function () {
+        console.log("htdzt")
+        let index = parseInt($(this).siblings('.index').val())
+            let selectedSong = currentQueue[index]
+            removeSongFromQueue(index)
+    });
 }
 
 function formatMilliseconds(milliseconds) {
@@ -59,7 +93,7 @@ function formatMilliseconds(milliseconds) {
     return timestamp
 }
 
-function addEntryToQueue(song) {
+function addEntryToQueue(song, index) {
 
     $("#queueList").append(`<li class="border rounded list-group-item m-0 mt-2 p-0">
         <div class="m-0">
@@ -79,9 +113,10 @@ function addEntryToQueue(song) {
                     </div>
                 </div>    
                 <div class="col-2">
-                    <button type="button" class="btn addToQueueButton" data-bs-dismiss="offcanvas" style="width: 100%; height: 100%">
+                    <button type="button" class="btn removeFromQueueButton" style="width: 100%; height: 100%">
                         <i class="bi bi-trash"></i>
                     </button>
+                    <input type="hidden" value="${index}" class="index"></input>
                 </div>            
             </div>
         </div>
@@ -95,7 +130,7 @@ function deleteCurrentQueueEntries() {
 
 }
 
-function arraysEqual(a, b) {
+function songArraysEqual(a, b) {
 
     if (a === b) return true;
     if (a == null || b == null) return false;

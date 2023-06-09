@@ -19,7 +19,7 @@
 
     <!-- Current playing song display-->
     <div class="row">
-      <div class="col-10 m-auto mt-5 mb-0">
+      <div class="col-10 m-auto mt-5 mb-2">
         <div class="card text-bg-dark mr-5 ml-5">
           <img src="test.png" class="card-img-top" id="currentSongImage" onerror='this.src="img/default.jpg"'>
         </div>
@@ -47,13 +47,13 @@
         <div class="row m-0">
 
           <div class="col">
-            <button type="button" class="btn btn-lg w-100 text-center"><i class="bi bi-skip-backward"></i></button>
+            <button type="button"id="skipBackwardButton" class="btn btn-lg w-100 text-center"><i class="bi bi-skip-backward"></i></button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-lg w-100 text-center"><i class="bi bi-play"></i></button>
+            <button type="button" id="skipForwardButton" class="btn btn-lg w-100 text-center"><i class="bi bi-play"></i></button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-lg w-100 text-center"><i class="bi bi-skip-forward"></i></button>
+            <button type="button" id="skipForwardButton" class="btn btn-lg w-100 text-center"><i class="bi bi-skip-forward"></i></button>
           </div>
 
         </div>
@@ -115,7 +115,7 @@
           <div class="row m-1">
 
             <div class="col">
-              <button type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+              <button type="button" data-bs-toggle="offcanvas" id="Searchbutton" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample" class="btn btn-lg"><i class="bi bi-search"></i></button>
             </div>
             <div class="col">
