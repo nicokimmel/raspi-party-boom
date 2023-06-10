@@ -38,6 +38,10 @@ function spotifySearch(query) {
     socket.emit('spotify-search', query)
 }
 
+function queueMove(oldIndex, newIndex) {
+    socket.emit('spotify-queue-move', oldIndex, newIndex)
+}
+
 let inputTimeout = null
 $('#searchTextInput').on('keyup', function (e) {
     clearTimeout(inputTimeout)

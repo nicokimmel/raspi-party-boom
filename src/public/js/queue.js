@@ -31,14 +31,14 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
     refreshPlayButton(playerData.playing)
 
     let song = playerData.song
-    let queue = queueData.list
+    let queue = queueData.upcoming
+    let history = queueData.previous
     let time = playerData.time
     isPlaying = playerData.playing
 
     refreshProgressbar(song, time)
 
     if (!song) { return }
-
 
     // Refresh Song only on Change
     if (currentSong !== song) {
@@ -48,9 +48,11 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     // Refresh Queue only on change
     if (!songArraysEqual(currentQueue, queue)) {
-        refreshQueue(queue, )
+        refreshQueue(queue)
+        refreshHistory(history)
         currentQueue = queue
     }
+
 
 })
 
@@ -141,7 +143,7 @@ function refreshCurrentTitle(song) {
 
 }
 
-function refreshQueue(songList, index) {
+function refreshQueue(songList) {
 
     deleteCurrentQueueEntries()
 
