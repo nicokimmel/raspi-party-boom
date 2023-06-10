@@ -5,7 +5,7 @@ function refreshHistory(songList) {
 
     for (let i = 0; i < songList.length; i++) {
         console.log(songList[i].title)
-        
+
         addEntryToHistoryList(songList[i], i)
     }
 
@@ -13,7 +13,7 @@ function refreshHistory(songList) {
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = songList[index]
         console.log("Added again:" + selectedSong.title + "   " + index)
-        
+
         spotifyAddToQueue(selectedSong)
     })
 }
