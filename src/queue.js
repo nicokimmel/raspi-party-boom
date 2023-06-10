@@ -12,6 +12,14 @@ class Queue {
     getList() {
         return this.queue
     }
+    
+    getUpcomingList() {
+        return this.queue.slice(this.index + 1)
+    }
+    
+    getPreviousList() {
+        return this.queue.slice(0, this.index)
+    }
 
     moveSong(from, to) {
         var temp = this.queue[from]
