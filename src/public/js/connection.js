@@ -30,19 +30,47 @@ function spotifyAddToQueue(song) {
     socket.emit('spotify-queue-add', song)
 }
 
-function spotifySearch(query) {
-    if (query == "") {
-        deleteCurrentEntries()
-        return
-    }
+function spotifyNext() {
+    socket.emit('spotify-next')
+}
+
+function spotifyPrevious() {
+    socket.emit('spotify-previous')
+}
+
+function spotifyQueueRemove(index) {
+    socket.emit('spotify-queue-remove', index)
+}
+
+function spotifyPause() {
+    socket.emit('spotify-pause')
+}
+
+function spotifyResume() {
+    socket.emit('spotify-resume')
+}
+
+function spotifySeek(value) {
+    socket.emit('spotify-seek', value)
+}
+
+function searchSpotify(query) {
     socket.emit('spotify-search', query)
+}
+
+function queueMove(oldIndex, newIndex) {
+    socket.emit('spotify-queue-move', oldIndex, newIndex)
 }
 
 let inputTimeout = null
 $('#searchTextInput').on('keyup', function (e) {
     clearTimeout(inputTimeout)
     inputTimeout = setTimeout(function () {
-        spotifySearch($('#searchTextInput').val())
+        if ($('#searchTextInput').val() == "") {
+            deleteCurrentEntries()
+            return
+        }
+        searchSpotify($('#searchTextInput').val())
     }, 500)
 })
 

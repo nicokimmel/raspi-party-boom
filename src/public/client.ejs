@@ -47,7 +47,7 @@
           <img src="" alt="Foreground Image" class="foreground-image" id="currentSongImageBackground">
         </div>
       </div>
-      <div class="row m-0 p-4">
+      <div class="row m-0 p-4 pb-0">
         <div class="card-body pb-0">
           <h5 class="text-white" id="currentTitleTextLabel"></h5>
           <p id="currentArtistTextLabel"></p>
@@ -71,25 +71,30 @@
             </div>
           </div>
         </div>
-        <div class="row m-0 mb-3">
-
-          <div class="col">
-            <button type="button" id="skipBackwardButton" class="btn btn-lg w-100 text-center"><i
-                class="bi bi-skip-backward"></i></button>
-          </div>
-          <div class="col">
-            <button type="button" id="playButton"
-              class="btn btn-success btn-lg w-100 text-center text-dark spotify-color"></button>
-          </div>
-          <div class="col">
-            <button type="button" id="skipForwardButton" class="btn btn-lg w-100 text-center"><i
-                class="bi bi-skip-forward"></i></button>
-          </div>
-
-        </div>
       </div>
     </div>
+    
+    <div class="row m-0 pb-3">
+      <div class="col-2 p-0">
+        <button type="button" class="btn w-100 h-100 text-center"><i class="bi bi-shuffle"></i></button>
+      </div>
+      <div class="col-2 p-0">
+        <button type="button" id="skipBackwardButton" class="btn w-100 h-100 text-center"><i
+            class="bi bi-skip-backward"></i></button>
+      </div>
+      <div class="col-4">
+        <button type="button" id="playButton"
+          class="btn btn-success btn-lg w-100 h-100 text-center text-dark spotify-color"></button>
+      </div>
+      <div class="col-2 p-0">
+        <button type="button" id="skipForwardButton" class="btn w-100 h-100 text-center"><i
+            class="bi bi-skip-forward"></i></button>
+      </div>
+      <div class="col-2 p-0">
+        <button type="button" class="btn w-100 h-100 text-center"><i class="bi bi-arrow-repeat"></i></button>
+      </div>
 
+    </div>
   </div>
 
   <div class="container">

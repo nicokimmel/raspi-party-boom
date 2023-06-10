@@ -1,20 +1,11 @@
 // Textlabel and other ui components
-const currentTitleTextLabel = $('#currentTitleTextLabel')
-const currentArtistTextLabel = $('#currentArtistTextLabel')
-const currentSongPlaytimeLabel = $('#currentSongPlaytimeLabel')
-const currentSongLengthLabel = $('#currentSongLengthLabel')
-const currentSongImage = $('#currentSongImage')
-const currentSongImageBackground = $('#currentSongImageBackground')
 
-const defaultSongName = "No song playing"
-const defaultSongArtist = "No artist involved"
+
+
 
 const spotifyWarningSign = $('#spotifyWarning')
 const searchButton = $('#Searchbutton')
-const skipBackwardButton = $('#skipBackwardButton')
-const playButton = $('#playButton')
-const skipForwardButton = $('#skipForwardButton')
-const progressBar = $('#progressBar')
+
 
 let isPlaying
 let currentSong
@@ -31,14 +22,14 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
     refreshPlayButton(playerData.playing)
 
     let song = playerData.song
-    let queue = queueData.list
+    let queue = queueData.upcoming
+    let history = queueData.previous
     let time = playerData.time
     isPlaying = playerData.playing
 
     refreshProgressbar(song, time)
 
     if (!song) { return }
-
 
     // Refresh Song only on Change
     if (currentSong !== song) {
@@ -48,102 +39,39 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     // Refresh Queue only on change
     if (!songArraysEqual(currentQueue, queue)) {
-        refreshQueue(queue, )
+        refreshQueue(queue)
+        refreshHistory(history)
         currentQueue = queue
     }
-
-})
-
-progressBar.on('mousedown', function () {
-    console.log("Drag Enter")
-    seeking = true
-})
-
-progressBar.on('change', function () {
-    console.log("Drag Exit")
-    seeking = false
-    console.log('ASDF' + progressBar.val())
-    socket.emit('spotify-seek', progressBar.val())
-})
-
-progressBar.on('input', function () {
-    if (seeking)
-        currentSongPlaytimeLabel.text(formatMilliseconds(parseInt(progressBar.val())))
 })
 
 
-$('#playButton').on("click", function () {
-    if (isPlaying)
-        socket.emit('spotify-pause')
-    else
-        socket.emit('spotify-resume')
-})
 
-$('#skipForwardButton').on("click", function () {
-    socket.emit('spotify-next')
-})
 
-$('#skipBackwardButton').on("click", function () {
-    socket.emit('spotify-previous')
-});
 
-function removeSongFromQueue(index) {
-    socket.emit('spotify-queue-remove', index)
-}
 
 function refreshDeviceStatus(spoitfyData) {
     if (spoitfyData.ready) {
         spotifyWarningSign.addClass('d-none')
         searchButton.removeClass('disabled')
-        skipBackwardButton.removeClass('disabled')
-        playButton.removeClass('disabled')
-        skipForwardButton.removeClass('disabled')
-        progressBar.removeClass('disabled')
+        //skipBackwardButton.removeClass('disabled')
+        //playButton.removeClass('disabled')
+        //skipForwardButton.removeClass('disabled')
+        //progressBar.removeClass('disabled')
     } else {
         spotifyWarningSign.removeClass('d-none')
         searchButton.addClass('disabled')
-        skipBackwardButton.addClass('disabled')
-        playButton.addClass('disabled')
-        skipForwardButton.addClass('disabled')
-        progressBar.addClass('disabled')
+        //skipBackwardButton.addClass('disabled')
+        //playButton.addClass('disabled')
+        //skipForwardButton.addClass('disabled')
+        //progressBar.addClass('disabled')
     }
 }
 
-function refreshProgressbar(song, time) {
-    if (song != null) {
-        if(!seeking)
-            currentSongPlaytimeLabel.text(formatMilliseconds(time))
 
-        currentSongLengthLabel.text(formatMilliseconds(song.duration))
-        progressBar.attr("max", song.duration);
-    } else {
-        currentSongPlaytimeLabel.text('00:00')
-        currentSongLengthLabel.text('00:00')
-    }   
+function refreshQueue(songList) {
 
-    if (!seeking) {
-        progressBar.val((time))        
-    }
-}
-
-function refreshCurrentTitle(song) {
-    if (song != null) {
-        currentTitleTextLabel.text(song.title)
-        currentArtistTextLabel.text(song.artist)
-        currentSongImage.attr('src', '' + song.image)
-        currentSongImageBackground.attr('src', '' + song.image)
-    } else {
-        currentTitleTextLabel.text(defaultSongName)
-        currentArtistTextLabel.text(defaultSongArtist)
-        currentSongImage.attr('src', '../images/default.webp')
-        currentSongImageBackground.attr('src', '../images/default.webp')
-    }
-
-}
-
-function refreshQueue(songList, index) {
-
-    deleteCurrentQueueEntries()
+    emptyQueueList()
 
     for (let i = 0; i < songList.length; i++) {
         console.log(songList[i].title)
@@ -155,7 +83,7 @@ function refreshQueue(songList, index) {
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = currentQueue[index]
         console.log("Delete:" + index + " / " + selectedSong.title)
-        removeSongFromQueue(index)
+        spotifyQueueRemove(index)
     })
 }
 
@@ -195,7 +123,7 @@ function addEntryToQueue(song, index) {
 
 }
 
-function deleteCurrentQueueEntries() {
+function emptyQueueList() {
 
     $('#queueList').empty()
 
@@ -209,21 +137,4 @@ function songArraysEqual(a, b) {
         if (a[i].id !== b[i].id) return false
     }
     return true
-}
-
-function refreshPlayButton(isPlaying) {
-
-    playButton.empty()
-
-    if (isPlaying) {
-        playButton.append(`<i class="bi bi-pause"></i>`)
-        playButton.removeClass('btn-success')
-        playButton.removeClass('spotify-color')
-        playButton.addClass('btn-secondary')
-    } else {
-        playButton.append(`<i class="bi bi-play"></i>`)
-        playButton.addClass('btn-success')
-        playButton.addClass('spotify-color')
-        playButton.removeClass('btn-secondary')
-    }
 }
