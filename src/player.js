@@ -73,10 +73,13 @@ class Player {
 
             if (this.time > this.currentSong.duration + 1000) {
                 this.time = 0
+                if (this.loop) {
+                    this.play(this.currentSong)
+                    return
+                }
                 let song = this.queue.nextSong()
                 if (!song) {
                     this.playing = false
-                    this.time = 0
                     return
                 }
                 this.play(song)
