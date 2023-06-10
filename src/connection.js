@@ -114,7 +114,8 @@ class Connection {
                 loop: this.player.isLooping()
             }
             const queueData = {
-                list: this.queue.getList()
+                upcoming: this.queue.getUpcomingList(),
+                previous: this.queue.getPreviousList(),
             }
             const spotifyData = {
                 ready: this.spotify.isReady()

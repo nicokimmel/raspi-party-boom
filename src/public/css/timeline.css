@@ -31,8 +31,8 @@ input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     /* creating a custom design */
-    height: 20px;
-    width: 20px;
+    height: 22px;
+    width: 22px;
     background-color: var(--spotify);
     border-radius: 50%;
     border: 2px solid var(--spotify-dark);
