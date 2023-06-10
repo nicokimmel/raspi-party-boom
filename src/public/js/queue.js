@@ -8,11 +8,20 @@ const currentSongImage = $('#currentSongImage')
 const defaultSongName = "No song playing"
 const defaultSongArtist = "No artist involved"
 
+const spotifyWarningSign = $('#spotifyWarning')
+const searchButton= $('#Searchbutton')
+const skipBackwardButton = $('#skipBackwardButton')
+const playButton = $('#playButton')
+const skipForwardButton = $('#skipForwardButton')
+const progressBar = $('#progressBar')
+
 
 let currentSong
 let currentQueue
 
 socket.on('tick', (playerData, queueData, spotifyData) => {
+
+    refreshDeviceStatus(spotifyData)
 
     let song = playerData.song
     let queue = queueData.queue
@@ -20,7 +29,6 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     if (!song) { return }
 
-    refreshDeviceStatus(spotifyData)
     refreshProgressbar(song, time)
 
     // Refresh Song only on Change
@@ -54,10 +62,21 @@ function removeSongFromQueue(index) {
 }
 
 function refreshDeviceStatus(spoitfyData) {
-    if (!spoitfyData.ready)
-        $('#spotifyWarning').addClass('Disabled')
-    else
-        $('#spotifyWarning').removeClass('Disabled')
+    if (spoitfyData.ready) {
+        spotifyWarningSign.addClass('d-none')
+        searchButton.removeClass('disabled')
+        skipBackwardButton.removeClass('disabled')
+        playButton.removeClass('disabled')
+        skipForwardButton.removeClass('disabled')
+        progressBar.removeClass('disabled')
+    } else {
+        spotifyWarningSign.removeClass('d-none')
+        searchButton.addClass('disabled')
+        skipBackwardButton.addClass('disabled')
+        playButton.addClass('disabled')
+        skipForwardButton.addClass('disabled')
+        progressBar.addClass('disabled')
+    }
 }
 
 function refreshProgressbar(song, time) {
