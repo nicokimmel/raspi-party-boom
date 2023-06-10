@@ -20,6 +20,7 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     if (!song) { return }
 
+    refreshDeviceStatus(spotifyData)
     refreshProgressbar(song, time)
 
     // Refresh Song only on Change
@@ -37,19 +38,26 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 });
 
 $('#playButton').on("click", function () {
-    socket.emit('spotify-resume')    
+    socket.emit('spotify-resume')
 });
 
 $('#skipForwardButton').on("click", function () {
-    socket.emit('spotify-next')    
+    socket.emit('spotify-next')
 });
 
 $('#skipBackwardButton').on("click", function () {
-    socket.emit('spotify-previous')    
+    socket.emit('spotify-previous')
 });
 
 function removeSongFromQueue(index) {
-    socket.emit('spotify-queue-remove', index)    
+    socket.emit('spotify-queue-remove', index)
+}
+
+function refreshDeviceStatus(spoitfyData) {
+    if (!spoitfyData.ready)
+        $('#spotifyWarning').addClass('Disabled')
+    else
+        $('#spotifyWarning').removeClass('Disabled')
 }
 
 function refreshProgressbar(song, time) {
@@ -63,7 +71,7 @@ function refreshProgressbar(song, time) {
 }
 
 function refreshCurrentTitle(song) {
-    if(song != null) {
+    if (song != null) {
         currentTitleTextLabel.text(song.title)
         currentArtistTextLabel.text(song.artist)
         currentSongImage.attr('src', '' + song.image)
@@ -87,8 +95,8 @@ function refreshQueue(songList) {
     $('#queueList').find('.removeFromQueueButton').on('click', function () {
         console.log("htdzt")
         let index = parseInt($(this).siblings('.index').val())
-            let selectedSong = currentQueue[index]
-            removeSongFromQueue(index)
+        let selectedSong = currentQueue[index]
+        removeSongFromQueue(index)
     });
 }
 
