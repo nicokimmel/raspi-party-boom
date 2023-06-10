@@ -112,9 +112,9 @@ function refreshQueue(songList) {
     };
 
     $('#queueList').find('.removeFromQueueButton').on('click', function () {
-        console.log("htdzt")
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = currentQueue[index]
+        console.log("Delete:" + index + " / " + selectedSong.title)
         removeSongFromQueue(index)
     });
 }
