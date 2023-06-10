@@ -96,7 +96,7 @@ class Connection {
 
             socket.on("spotify-seek", (time) => {
                 if (!this.spotify.isReady()) { return }
-                this.player.seek(time)
+                this.player.seek(parseInt(time))
             })
 
             socket.on("spotify-loop", () => {
