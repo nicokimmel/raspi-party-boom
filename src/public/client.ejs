@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="css/boom.min.css">
 </head>
 
-<body class="">
+<body class="bg-dark-subtle">
 
   <!-- Top information -->
   <div id="spotifyWarning" class="text-center fixed-top bg-danger border-bottom border-danger-subtle border-2">
@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container bg-dark">
 
     <!-- Current playing song display-->
     <div class="row">
@@ -42,8 +42,8 @@
           
         </div>-->
         <div class="image-container ">
-          <img src="img/default.jpg" alt="Background Image" class="background-image rounded-3" id="currentSongImage">
-          <img src="img/default.jpg" alt="Foreground Image" class="foreground-image" id="currentSongImageBackground">
+          <img src="" alt="Background Image" class="background-image rounded-3" id="currentSongImage">
+          <img src="" alt="Foreground Image" class="foreground-image" id="currentSongImageBackground">
         </div>
       </div>
       <div class="row m-0 p-4">
@@ -89,6 +89,9 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="container">
 
     <ul class="p-0 mb-5 pb-2 list-group" id="queueList">
 
@@ -97,12 +100,11 @@
     </ul>
 
   </div>
-
   <!-- Off canvas for the search bar to the left -->
   <div class="offcanvas offcanvas-start" style="width:100%" tabindex="-1" id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel">
 
-    <div class="offcanvas-body container">
+    <div class="offcanvas-body container bg-dark-subtle">
 
       <form>
         <div class="mb-3">
@@ -122,7 +124,7 @@
         <h4>Keine Ergebnisse gefunden.</h4>
       </div>
 
-      <div class="container text-center fixed-bottom bg-dark-subtle">
+      <div class="container text-center fixed-bottom bg-dark">
         <div class="row m-1">
 
           <div class="col">
@@ -140,7 +142,7 @@
       <% } %>
 
         <!-- Bottom navigation -->
-        <div class="container text-center fixed-bottom bg-dark-subtle">
+        <div class="container text-center fixed-bottom bg-dark">
           <div class="row m-1">
 
             <div class="col">

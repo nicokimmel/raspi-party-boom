@@ -135,6 +135,8 @@ function refreshCurrentTitle(song) {
     } else {
         currentTitleTextLabel.text(defaultSongName)
         currentArtistTextLabel.text(defaultSongArtist)
+        currentSongImage.attr('src', '../images/default.webp')
+        currentSongImageBackground.attr('src', '../images/default.webp')
     }
 
 }
