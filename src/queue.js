@@ -55,7 +55,7 @@ class Queue {
     nextSong() {
         console.log("[QUEUE] Next song")
         if (!this.queue[this.index + 1]) {
-            return this.queue[this.index]
+            return null
         }
         this.index++
         return this.queue[this.index]

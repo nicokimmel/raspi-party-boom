@@ -28,15 +28,24 @@ class Player {
 
     play(song) {
         this.playing = true
+        this.time = 0
         this.currentSong = song
         this.spotify.play(song)
         console.log("[PLAYER] Playing song " + song.title)
-    }
+    }   
+
 
     pause() {
         this.playing = false
         this.spotify.pause()
         console.log("[PLAYER] Pausing song ")
+    }
+
+    stop() {
+        this.playing = false
+        this.spotify.pause()
+        this.time = 0
+        console.log("[PLAYER] Stoped song ")
     }
 
     resume() {
