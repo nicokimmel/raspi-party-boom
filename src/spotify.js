@@ -1,4 +1,5 @@
 const SpotifyWebApi = require("spotify-web-api-node")
+const { ShellWrapper } = require("./shell.js")
 
 const SCOPES = ['user-modify-playback-state', 'user-read-playback-state', 'user-read-currently-playing', "playlist-modify-public", "playlist-modify-private"]
 const REDIRECT_URI = 'http://localhost:3000'
@@ -9,7 +10,9 @@ class SpotifyWrapper {
     constructor() {
         this.api = new SpotifyWebApi({ clientId: process.env.SPOTIFY_CLIENT_ID, clientSecret: process.env.SPOTIFY_CLIENT_SECRET, redirectUri: REDIRECT_URI })
         this.url = this.api.createAuthorizeURL(SCOPES)
+        this.shell = new ShellWrapper()
         this.deviceId = null
+        this.deviceAttempts = 0
     }
 
     search(query, callback) {
@@ -70,6 +73,7 @@ class SpotifyWrapper {
                         if (availableDevices[i].name === "raspi_party_boom") {
                             self.deviceId = availableDevices[i].id
                             console.log("[SPOTIFY] Device ID is " + self.deviceId)
+                            self.deviceAttempts = 0
                             return
                         }
                     }
@@ -77,6 +81,10 @@ class SpotifyWrapper {
 
                 console.log('[SPOTIFY] No devices found. Checking again in 1 second.')
                 setTimeout(() => {
+                    self.deviceAttempts++
+                    if (self.deviceAttempts >= 5) {
+                        self.shell.restartSpotifyd()
+                    }
                     self.searchPlaybackDevice()
                 }, SCAN_INTERVAL)
             }, function (err) {
