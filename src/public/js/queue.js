@@ -24,7 +24,7 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
     refreshDeviceStatus(spotifyData)
 
     let song = playerData.song
-    let queue = queueData.queue
+    let queue = queueData.list
     let time = playerData.time
 
     if (!song) { return }
@@ -106,7 +106,7 @@ function refreshQueue(songList) {
     deleteCurrentQueueEntries()
 
     for (let i = 0; i < songList.length; i++) {
-
+        console.log(songList[i].title)
         addEntryToQueue(songList[i], i)
 
     };
