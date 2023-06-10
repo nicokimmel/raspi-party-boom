@@ -4,6 +4,7 @@ const currentArtistTextLabel = $('#currentArtistTextLabel')
 const currentSongPlaytimeLabel = $('#currentSongPlaytimeLabel')
 const currentSongLengthLabel = $('#currentSongLengthLabel')
 const currentSongImage = $('#currentSongImage')
+const currentSongImageBackground = $('#currentSongImageBackground')
 
 const defaultSongName = "No song playing"
 const defaultSongArtist = "No artist involved"
@@ -130,6 +131,7 @@ function refreshCurrentTitle(song) {
         currentTitleTextLabel.text(song.title)
         currentArtistTextLabel.text(song.artist)
         currentSongImage.attr('src', '' + song.image)
+        currentSongImageBackground.attr('src', '' + song.image)
     } else {
         currentTitleTextLabel.text(defaultSongName)
         currentArtistTextLabel.text(defaultSongArtist)
