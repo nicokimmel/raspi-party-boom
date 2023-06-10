@@ -18,6 +18,11 @@ const progressBar = $('#progressBar')
 let isPlaying
 let currentSong
 let currentQueue
+let isDraggingOnTimeline
+
+// initial refresh
+refreshProgressbar(null, 0)
+refreshCurrentTitle(null)
 
 socket.on('tick', (playerData, queueData, spotifyData) => {
 
@@ -29,9 +34,10 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
     let time = playerData.time
     isPlaying = playerData.playing
 
+    refreshProgressbar(song, time)
+
     if (!song) { return }
 
-    refreshProgressbar(song, time)
 
     // Refresh Song only on Change
     if (currentSong !== song) {
@@ -45,6 +51,23 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
         currentQueue = queue
     }
 
+})
+
+progressBar.on('mousedown', function () {
+    console.log("Drag Enter")
+    isDraggingOnTimeline = true
+})
+
+progressBar.on('change', function () {
+    if (isDraggingOnTimeline)
+        currentSongPlaytimeLabel.text(formatMilliseconds(parseInt(progressBar.val())))
+})
+
+progressBar.on('mouseup', function () {
+    console.log("Drag Exit")
+    isDraggingOnTimeline = false
+    console.log('ASDF' + progressBar.val())
+    socket.emit('spotify-seek', progressBar.val())
 })
 
 $('#playButton').on("click", function () {
@@ -86,14 +109,19 @@ function refreshDeviceStatus(spoitfyData) {
 
 function refreshProgressbar(song, time) {
     if (song != null) {
-        currentSongPlaytimeLabel.text(formatMilliseconds(time))
+        if(!isDraggingOnTimeline)
+            currentSongPlaytimeLabel.text(formatMilliseconds(time))
+
         currentSongLengthLabel.text(formatMilliseconds(song.duration))
+        progressBar.attr("max", song.duration);
     } else {
         currentSongPlaytimeLabel.text('00:00')
         currentSongLengthLabel.text('00:00')
     }   
-    console.log((time / song.duration * 1000))
-    progressBar.val((time / song.duration * 1000))
+
+    if (!isDraggingOnTimeline) {
+        progressBar.val((time))        
+    }
 }
 
 function refreshCurrentTitle(song) {

@@ -55,6 +55,7 @@ class Player {
     }
 
     seek(time) {
+        this.time = time
         console.log("[PLAYER] Seeking to " + time)
     }
 
