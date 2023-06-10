@@ -1,0 +1,12 @@
+:root {
+    --spotify: #1ed760;
+    --spotify-dark: #17ab4b;
+}
+
+.spotify-color {
+    background-color: var(--spotify);
+}
+
+.spotify-color-dark {
+    background-color: var(--spotify-dark);
+}

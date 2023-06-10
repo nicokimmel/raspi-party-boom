@@ -185,10 +185,12 @@ function refreshPlayButton(isPlaying) {
     if (isPlaying) {
         playButton.append(`<i class="bi bi-pause"></i>`)
         playButton.removeClass('btn-success')
+        playButton.removeClass('spotify-color')
         playButton.addClass('btn-secondary')
     } else {
         playButton.append(`<i class="bi bi-play"></i>`)
         playButton.addClass('btn-success')
+        playButton.addClass('spotify-color')
         playButton.removeClass('btn-secondary')
     }
 }
