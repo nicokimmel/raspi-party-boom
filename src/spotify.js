@@ -83,6 +83,7 @@ class SpotifyWrapper {
                 setTimeout(() => {
                     self.deviceAttempts++
                     if (self.deviceAttempts >= 5) {
+                        self.deviceAttempts = 0
                         self.shell.restartSpotifyd()
                     }
                     self.searchPlaybackDevice()
