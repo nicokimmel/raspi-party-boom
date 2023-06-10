@@ -64,15 +64,21 @@ class SpotifyWrapper {
         this.api.getMyDevices()
             .then(function (data) {
                 let availableDevices = data.body.devices;
-                if (availableDevices.length == 0) {
-                    console.log('[SPOTIFY] No devices found. Checking again in 1 second.');
-                    setTimeout(() => {
-                        self.searchPlaybackDevice()
-                    }, SCAN_INTERVAL);
-                    return;
+
+                if (availableDevices.length > 0) {
+                    for (let i = 0; i < availableDevices.length; i++) {
+                        if (availableDevices[i].name === "raspi_party_boom") {
+                            self.deviceId = availableDevices[i].id
+                            console.log("[SPOTIFY] Device ID is " + self.deviceId)
+                            return
+                        }
+                    }
                 }
-                self.deviceId = availableDevices[0].id
-                console.log("[SPOTIFY] Device ID is " + self.deviceId)
+
+                console.log('[SPOTIFY] No devices found. Checking again in 1 second.');
+                setTimeout(() => {
+                    self.searchPlaybackDevice()
+                }, SCAN_INTERVAL);
             }, function (err) {
                 console.log('Something went wrong!', err);
             });
