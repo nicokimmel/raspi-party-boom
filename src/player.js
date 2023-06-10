@@ -58,10 +58,10 @@ class Player {
         setInterval(() => {
             if (!this.currentSong || !this.playing) { return }
 
-            this.time++;
-            console.log("[PLAYER] " + this.time + "/" + this.currentSong.duration / 1000)
+            this.time += 1000;
+            console.log("[PLAYER] " + this.time + "/" + this.currentSong.duration)
 
-            if (this.time > this.currentSong.duration / 1000 + 1) {
+            if (this.time > this.currentSong.duration + 1000) {
                 this.time = 0
                 let song = this.queue.nextSong()
                 if (!song) {

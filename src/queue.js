@@ -36,7 +36,7 @@ class Queue {
 
     removeSongByIndex(index) {
         this.queue.splice(index, 1)
-        console.log("[QUEUE] Removed (byIndex) song " + song.title)
+        console.log("[QUEUE] Removed (byIndex) song " + index)
     }
 
     shuffle() {
