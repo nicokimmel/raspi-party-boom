@@ -102,7 +102,18 @@ class Connection {
 
     tick() {
         setInterval(() => {
-            this.io.emit("tick", this.player.getCurrentSong(), this.player.getCurrentTime(), this.queue.getList())
+            const playerData = {
+                song: this.player.getCurrentSong(),
+                time: this.player.getCurrentTime(),
+                loop: this.player.isLooping()
+            }
+            const queueData = {
+                list: this.queue.getList()
+            }
+            const spotifyData = {
+                ready: this.spotify.isReady()
+            }
+            this.io.emit("tick", playerData, queueData, spotifyData)
         }, TICK_RATE)
     }
 

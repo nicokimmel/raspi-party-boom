@@ -17,6 +17,10 @@ class Player {
     getCurrentTime() {
         return this.time
     }
+    
+    isLooping() {
+        return this.loop
+    }
 
     play(song) {
         this.playing = true
