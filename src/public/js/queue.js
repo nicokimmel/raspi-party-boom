@@ -15,17 +15,19 @@ const playButton = $('#playButton')
 const skipForwardButton = $('#skipForwardButton')
 const progressBar = $('#progressBar')
 
-
+let isPlaying
 let currentSong
 let currentQueue
 
 socket.on('tick', (playerData, queueData, spotifyData) => {
 
     refreshDeviceStatus(spotifyData)
+    refreshPlayButton(playerData.playing)
 
     let song = playerData.song
     let queue = queueData.list
     let time = playerData.time
+    isPlaying = playerData.playing
 
     if (!song) { return }
 
@@ -46,7 +48,10 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 })
 
 $('#playButton').on("click", function () {
-    socket.emit('spotify-resume')
+    if (isPlaying)
+        socket.emit('spotify-pause')
+    else
+        socket.emit('spotify-resume')
 })
 
 $('#skipForwardButton').on("click", function () {
@@ -171,4 +176,19 @@ function songArraysEqual(a, b) {
         if (a[i].id !== b[i].id) return false
     }
     return true
+}
+
+function refreshPlayButton(isPlaying) {
+
+    playButton.empty()
+
+    if (isPlaying) {
+        playButton.append(`<i class="bi bi-pause"></i>`)
+        playButton.removeClass('btn-success')
+        playButton.addClass('btn-secondary')
+    } else {
+        playButton.append(`<i class="bi bi-play"></i>`)
+        playButton.addClass('btn-success')
+        playButton.removeClass('btn-secondary')
+    }
 }
