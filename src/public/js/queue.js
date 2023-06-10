@@ -8,11 +8,20 @@ const currentSongImage = $('#currentSongImage')
 const defaultSongName = "No song playing"
 const defaultSongArtist = "No artist involved"
 
+const spotifyWarningSign = $('#spotifyWarning')
+const searchButton= $('#Searchbutton')
+const skipBackwardButton = $('#skipBackwardButton')
+const playButton = $('#playButton')
+const skipForwardButton = $('#skipForwardButton')
+const progressBar = $('#progressBar')
+
 
 let currentSong
 let currentQueue
 
 socket.on('tick', (playerData, queueData, spotifyData) => {
+
+    refreshDeviceStatus(spotifyData)
 
     let song = playerData.song
     let queue = queueData.queue
@@ -37,19 +46,37 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 });
 
 $('#playButton').on("click", function () {
-    socket.emit('spotify-resume')    
+    socket.emit('spotify-resume')
 });
 
 $('#skipForwardButton').on("click", function () {
-    socket.emit('spotify-next')    
+    socket.emit('spotify-next')
 });
 
 $('#skipBackwardButton').on("click", function () {
-    socket.emit('spotify-previous')    
+    socket.emit('spotify-previous')
 });
 
 function removeSongFromQueue(index) {
-    socket.emit('spotify-queue-remove', index)    
+    socket.emit('spotify-queue-remove', index)
+}
+
+function refreshDeviceStatus(spoitfyData) {
+    if (spoitfyData.ready) {
+        spotifyWarningSign.addClass('d-none')
+        searchButton.removeClass('disabled')
+        skipBackwardButton.removeClass('disabled')
+        playButton.removeClass('disabled')
+        skipForwardButton.removeClass('disabled')
+        progressBar.removeClass('disabled')
+    } else {
+        spotifyWarningSign.removeClass('d-none')
+        searchButton.addClass('disabled')
+        skipBackwardButton.addClass('disabled')
+        playButton.addClass('disabled')
+        skipForwardButton.addClass('disabled')
+        progressBar.addClass('disabled')
+    }
 }
 
 function refreshProgressbar(song, time) {
@@ -63,7 +90,7 @@ function refreshProgressbar(song, time) {
 }
 
 function refreshCurrentTitle(song) {
-    if(song != null) {
+    if (song != null) {
         currentTitleTextLabel.text(song.title)
         currentArtistTextLabel.text(song.artist)
         currentSongImage.attr('src', '' + song.image)
@@ -87,8 +114,8 @@ function refreshQueue(songList) {
     $('#queueList').find('.removeFromQueueButton').on('click', function () {
         console.log("htdzt")
         let index = parseInt($(this).siblings('.index').val())
-            let selectedSong = currentQueue[index]
-            removeSongFromQueue(index)
+        let selectedSong = currentQueue[index]
+        removeSongFromQueue(index)
     });
 }
 
