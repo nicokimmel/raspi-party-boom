@@ -39,7 +39,7 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     // Refresh Queue only on change
     if (!songArraysEqual(currentQueue, queue)) {
-        refreshQueue(queue)
+        refreshQueue(queue, )
         currentQueue = queue
     }
 
@@ -86,7 +86,9 @@ function refreshProgressbar(song, time) {
     } else {
         currentSongPlaytimeLabel.text('00:00')
         currentSongLengthLabel.text('00:00')
-    }
+    }   
+    console.log((time / song.duration * 1000))
+    progressBar.val((time / song.duration * 1000))
 }
 
 function refreshCurrentTitle(song) {
@@ -101,12 +103,13 @@ function refreshCurrentTitle(song) {
 
 }
 
-function refreshQueue(songList) {
+function refreshQueue(songList, index) {
 
     deleteCurrentQueueEntries()
 
     for (let i = 0; i < songList.length; i++) {
         console.log(songList[i].title)
+        
         addEntryToQueue(songList[i], i)
     }
 
