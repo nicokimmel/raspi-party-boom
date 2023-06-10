@@ -12,7 +12,11 @@ const defaultSongArtist = "No artist involved"
 let currentSong
 let currentQueue
 
-socket.on('tick', (song, time, queue) => {
+socket.on('tick', (playerData, queueData, spotifyData) => {
+
+    let song = playerData.song
+    let queue = queueData.queue
+    let time = playerData.time
 
     if (!song) { return }
 
