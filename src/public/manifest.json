@@ -1,0 +1,17 @@
+{
+    "name": "Raspi Boom Box",
+    "short_name": "raspi-boom-box",
+    "description": "Listen to Spotify together with your friends",
+    "lang": "de",
+    "icons": [
+      {
+        "src": "images/tada.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "display": "portrait",
+    "theme_color": "#1ed760",
+    "background_color": "#212529"
+  }
