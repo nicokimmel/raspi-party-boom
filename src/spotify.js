@@ -2,6 +2,7 @@ const SpotifyWebApi = require("spotify-web-api-node")
 
 const SCOPES = ['user-modify-playback-state', 'user-read-playback-state', 'user-read-currently-playing', "playlist-modify-public", "playlist-modify-private"]
 const REDIRECT_URI = 'http://localhost:3000'
+const SCAN_INTERVAL = 1000
 
 class SpotifyWrapper {
 
@@ -58,11 +59,18 @@ class SpotifyWrapper {
         )
     }
 
-    getPlaybackDevice() {
+    searchPlaybackDevice() {
         let self = this
         this.api.getMyDevices()
             .then(function (data) {
                 let availableDevices = data.body.devices;
+                if (availableDevices.length == 0) {
+                    console.log('[SPOTIFY] No devices found. Checking again in 1 second.');
+                    setTimeout(() => {
+                        self.searchPlaybackDevice()
+                    }, SCAN_INTERVAL);
+                    return;
+                }
                 self.deviceId = availableDevices[0].id
                 console.log("[SPOTIFY] Device ID is " + self.deviceId)
             }, function (err) {
@@ -71,13 +79,20 @@ class SpotifyWrapper {
     }
 
     play(song) {
-        if (this.deviceId) {
-            this.api.play({ uris: [`spotify:track:${song.id}`], device_id: this.deviceId })
-            console.log("[SPOTIFY] Playing track " + song.title + " on device " + this.deviceId)
+        if (!this.deviceId) {
+            this.searchPlaybackDevice()
+            return
         }
+        this.api.play({ uris: [`spotify:track:${song.id}`], device_id: this.deviceId })
+        console.log("[SPOTIFY] Playing track " + song.title + " on device " + this.deviceId)
+
     }
 
     pause() {
+        if (!this.deviceId) {
+            this.searchPlaybackDevice()
+            return
+        }
         this.api.pause()
             .then(function () {
                 console.log('[SPOTIFY] Playback paused');
@@ -87,6 +102,10 @@ class SpotifyWrapper {
     }
 
     resume() {
+        if (!this.deviceId) {
+            this.searchPlaybackDevice()
+            return
+        }
         this.api.play()
             .then(function () {
                 console.log('[SPOTIFY] Playback resumed');

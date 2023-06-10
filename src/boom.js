@@ -25,7 +25,7 @@ function onServerStarted() {
 }
 
 function onSpotifyReady() {
-	spotify.getPlaybackDevice()
+	spotify.searchPlaybackDevice()
 }
 
 app.use(express.static(path.join(__dirname, 'public')))
