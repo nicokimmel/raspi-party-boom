@@ -20,8 +20,11 @@ const http = connection.get()
 connection.open()
 connection.tick()
 
-function onServerStarted() {
+const { ShellWrapper } = require("./shell.js")
+const shell = new ShellWrapper()
 
+function onServerStarted() {
+	shell.list()
 }
 
 function onSpotifyReady() {
