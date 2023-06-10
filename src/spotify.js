@@ -47,17 +47,39 @@ class SpotifyWrapper {
         return this.deviceId !== null
     }
 
-    setAccessToken(code, callback) {
+    requestAccessToken(code, callback) {
         let self = this
         this.api.authorizationCodeGrant(code).then(
             function (data) {
+                this.accessToken = data.body['access_token']
                 self.api.setAccessToken(data.body['access_token'])
+
+                this.refreshToken = data.body['refresh_token']
                 self.api.setRefreshToken(data.body['refresh_token'])
+
                 console.log("[SPOTIFY] Access token set. Token will expire in " + data.body['expires_in'] + " seconds.")
+
+                setTimeout(() => {
+                    self.refreshAccessToken()
+                }, data.body['expires_in'])
+
                 callback()
             },
             function (err) {
                 console.log('Something went wrong!', err)
+            }
+        )
+    }
+
+    refreshAccessToken() {
+        let self = this
+        this.api.refreshAccessToken().then(
+            function (data) {
+                self.api.setAccessToken(data.body['access_token'])
+                console.log('[SPOTIFY] The access token has been refreshed!')
+            },
+            function (err) {
+                console.log('Could not refresh access token', err)
             }
         )
     }
@@ -67,7 +89,6 @@ class SpotifyWrapper {
         this.api.getMyDevices()
             .then(function (data) {
                 let availableDevices = data.body.devices
-
                 if (availableDevices.length > 0) {
                     for (let i = 0; i < availableDevices.length; i++) {
                         if (availableDevices[i].name === "raspi_party_boom") {

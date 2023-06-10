@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 
 		let isAdmin = mac === null //process.env.ADMIN_MAC
 		if (req.query.code) {
-			spotify.setAccessToken(req.query.code, onSpotifyReady)
+			spotify.requestAccessToken(req.query.code, onSpotifyReady)
 			res.redirect("/")
 			return
 		}
