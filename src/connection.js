@@ -109,6 +109,7 @@ class Connection {
     tick() {
         setInterval(() => {
             const playerData = {
+                playing: this.player.isPlaying(),
                 song: this.player.getCurrentSong(),
                 time: this.player.getCurrentTime(),
                 loop: this.player.isLooping()

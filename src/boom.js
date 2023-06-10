@@ -34,8 +34,7 @@ app.get('/', (req, res) => {
 
 	connection.lookupMac(req.ip, (mac, ip) => {
 
-		let isAdmin = toString(mac) == toString(process.env.ADMIN_MAC)
-
+		let isAdmin = mac === null //process.env.ADMIN_MAC
 		if (req.query.code) {
 			spotify.setAccessToken(req.query.code, onSpotifyReady)
 			res.redirect("/")
