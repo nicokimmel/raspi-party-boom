@@ -51,10 +51,10 @@ class SpotifyWrapper {
         let self = this
         this.api.authorizationCodeGrant(code).then(
             function (data) {
-                this.accessToken = data.body['access_token']
+                self.accessToken = data.body['access_token']
                 self.api.setAccessToken(data.body['access_token'])
 
-                this.refreshToken = data.body['refresh_token']
+                self.refreshToken = data.body['refresh_token']
                 self.api.setRefreshToken(data.body['refresh_token'])
 
                 console.log("[SPOTIFY] Access token set. Token will expire in " + data.body['expires_in'] + " seconds.")
