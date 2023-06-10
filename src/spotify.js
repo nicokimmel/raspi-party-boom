@@ -61,7 +61,7 @@ class SpotifyWrapper {
 
                 setTimeout(() => {
                     self.refreshAccessToken()
-                }, data.body['expires_in'] * 1000)
+                }, (data.body['expires_in'] - 1) * 1000)
 
                 callback()
             },
