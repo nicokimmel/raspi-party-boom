@@ -74,14 +74,8 @@ class Connection {
             socket.on("spotify-previous", () => {
                 if (!this.spotify.isReady()) { return }
                 const song = this.queue.previousSong()
-                if (song != null) {
-                    socket.emit("spotify-next", song)
-                    this.player.play(song)
-                } else {
-                    song = this.queue.getCurrentSong()
-                    socket.emit("spotify-next", song)
-                    this.player.play(song)
-                }
+                socket.emit("spotify-next", song)
+                this.player.play(song)
             })
 
             socket.on("spotify-play", (index) => {
