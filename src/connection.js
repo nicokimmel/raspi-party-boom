@@ -67,7 +67,7 @@ class Connection {
                     socket.emit("spotify-next", song)
                     this.player.play(song)
                 } else {
-                    //TODO skip song
+                    this.player.stop()
                 }
             })
 
