@@ -10,6 +10,10 @@ class Player {
         this.loop = false
     }
 
+    isPlaying() {
+        return this.playing
+    }
+    
     getCurrentSong() {
         return this.currentSong
     }
