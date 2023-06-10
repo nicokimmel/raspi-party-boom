@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 		}
 
 		res.render(path.join(__dirname, 'public', 'client.ejs'), { isAdmin: isAdmin, spotifyURL: spotify.getLoginURL() })
-	});
+	})
 })
 
 http.listen(process.env.PORT, () => {

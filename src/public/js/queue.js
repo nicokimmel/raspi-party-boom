@@ -9,7 +9,7 @@ const defaultSongName = "No song playing"
 const defaultSongArtist = "No artist involved"
 
 const spotifyWarningSign = $('#spotifyWarning')
-const searchButton= $('#Searchbutton')
+const searchButton = $('#Searchbutton')
 const skipBackwardButton = $('#skipBackwardButton')
 const playButton = $('#playButton')
 const skipForwardButton = $('#skipForwardButton')
@@ -43,15 +43,15 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
         currentQueue = queue
     }
 
-});
+})
 
 $('#playButton').on("click", function () {
     socket.emit('spotify-resume')
-});
+})
 
 $('#skipForwardButton').on("click", function () {
     socket.emit('spotify-next')
-});
+})
 
 $('#skipBackwardButton').on("click", function () {
     socket.emit('spotify-previous')
@@ -108,19 +108,18 @@ function refreshQueue(songList) {
     for (let i = 0; i < songList.length; i++) {
         console.log(songList[i].title)
         addEntryToQueue(songList[i], i)
-
-    };
+    }
 
     $('#queueList').find('.removeFromQueueButton').on('click', function () {
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = currentQueue[index]
         console.log("Delete:" + index + " / " + selectedSong.title)
         removeSongFromQueue(index)
-    });
+    })
 }
 
 function formatMilliseconds(milliseconds) {
-    let timestamp = moment.utc(milliseconds).format('mm:ss');
+    let timestamp = moment.utc(milliseconds).format('mm:ss')
     return timestamp
 }
 
@@ -162,13 +161,11 @@ function deleteCurrentQueueEntries() {
 }
 
 function songArraysEqual(a, b) {
-
-    if (a === b) return true;
-    if (a == null || b == null) return false;
-    if (a.length !== b.length) return false;
-
+    if (a === b) return true
+    if (a == null || b == null) return false
+    if (a.length !== b.length) return false
     for (var i = 0; i < a.length; ++i) {
-        if (a[i].id !== b[i].id) return false;
+        if (a[i].id !== b[i].id) return false
     }
-    return true;
+    return true
 }

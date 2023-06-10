@@ -28,8 +28,8 @@ class SpotifyWrapper {
                 }
                 callback(songList)
             }, function (err) {
-                console.error(err);
-            });
+                console.error(err)
+            })
     }
 
     getLoginURL() {
@@ -63,7 +63,7 @@ class SpotifyWrapper {
         let self = this
         this.api.getMyDevices()
             .then(function (data) {
-                let availableDevices = data.body.devices;
+                let availableDevices = data.body.devices
 
                 if (availableDevices.length > 0) {
                     for (let i = 0; i < availableDevices.length; i++) {
@@ -75,13 +75,13 @@ class SpotifyWrapper {
                     }
                 }
 
-                console.log('[SPOTIFY] No devices found. Checking again in 1 second.');
+                console.log('[SPOTIFY] No devices found. Checking again in 1 second.')
                 setTimeout(() => {
                     self.searchPlaybackDevice()
-                }, SCAN_INTERVAL);
+                }, SCAN_INTERVAL)
             }, function (err) {
-                console.log('Something went wrong!', err);
-            });
+                console.log('Something went wrong!', err)
+            })
     }
 
     play(song) {
@@ -101,10 +101,10 @@ class SpotifyWrapper {
         }
         this.api.pause()
             .then(function () {
-                console.log('[SPOTIFY] Playback paused');
+                console.log('[SPOTIFY] Playback paused')
             }, function (err) {
-                console.log('Something went wrong!', err);
-            });
+                console.log('Something went wrong!', err)
+            })
     }
 
     resume() {
@@ -114,10 +114,10 @@ class SpotifyWrapper {
         }
         this.api.play()
             .then(function () {
-                console.log('[SPOTIFY] Playback resumed');
+                console.log('[SPOTIFY] Playback resumed')
             }, function (err) {
-                console.log('Something went wrong!', err);
-            });
+                console.log('Something went wrong!', err)
+            })
     }
 }
 
