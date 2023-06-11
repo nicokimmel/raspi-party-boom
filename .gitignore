@@ -133,3 +133,4 @@ dist/
 .tscache/
 package-lock.json
 tscommand*
+permissions.json

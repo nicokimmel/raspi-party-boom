@@ -4,6 +4,9 @@ const path = require("path")
 
 const app = express()
 
+const { Permissions, Group } = require("./permissions.js")
+const permissions = new Permissions(path.join(__dirname, "permissions.json"))
+
 const { SpotifyWrapper } = require("./spotify.js")
 const spotify = new SpotifyWrapper()
 
@@ -21,7 +24,7 @@ connection.open()
 connection.tick()
 
 function onServerStarted() {
-
+	permissions.loadFromFile()
 }
 
 function onSpotifyReady() {
