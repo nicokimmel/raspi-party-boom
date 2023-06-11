@@ -1,18 +1,23 @@
 const arp = require('@network-utils/arp-lookup')
 
 const { ShellWrapper } = require("./shell.js")
+const { Group } = require("./permissions.js")
 
 const TICK_RATE = 500
+const MAC_PATTERN = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[0-9a-fA-F]{4}\.[0-9a-fA-F]{4})$/
+
 
 class Connection {
 
-    constructor(app, player, spotify, queue) {
+    constructor(app, player, spotify, queue, permissions) {
         this.http = require("http").Server(app)
         this.io = require("socket.io")(this.http)
         this.player = player
         this.spotify = spotify
         this.queue = queue
+        this.permissions = permissions
         this.shell = new ShellWrapper()
+        this.lookupMap = {}
     }
 
     get() {
@@ -23,9 +28,13 @@ class Connection {
         this.io.on("connection", (socket) => {
 
             let address = socket.handshake.address
-            this.lookupMac(address, (mac, ip) => {
+            this.lookupMac(address, (mac, address, ip) => {
                 console.log("[CONNECTION] " + ip + " connected as " + mac)
             })
+
+            socket.getMac = () => {
+                return this.lookupMac[address]
+            }
 
             socket.on("disconnect", () => {
                 console.log("[CONNECTION] User disconnected")
@@ -105,6 +114,13 @@ class Connection {
             socket.on("spotify-loop", () => {
                 this.player.toggleLoop()
             })
+
+            socket.on("permissions-change", (mac, group) => {
+                if (!this.isMac(mac)) { return }
+                if (group < Group.ADMIN || group > Group.BLOCKED) { return }
+                if (this.permissions.getGroup(socket.getMac()) < Group.ADMIN) { return }
+                this.permissions.setGroup(mac, group)
+            })
         })
     }
 
@@ -132,13 +148,19 @@ class Connection {
     }
 
     lookupMac(address, callback) {
+        let ip = address
         if (address.startsWith('::ffff:')) {
-            address = address.substring(7)
+            ip = address.substring(7)
         }
-        arp.toMAC(address)
+        arp.toMAC(ip)
             .then((mac) => {
-                callback(mac, address)
+                this.lookupMap[address] = mac
+                callback(mac, address, ip)
             })
+    }
+
+    isMac(mac) {
+        return MAC_PATTERN.test(mac)
     }
 }
 

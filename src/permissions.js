@@ -27,6 +27,7 @@ class Permissions {
     setGroup(mac, group) {
         if (group < Group.ADMIN || group > Group.BLOCKED) { return }
         this.permissionMap[mac] = group
+        this.saveToFile()
     }
 
     loadFromFile() {

@@ -18,7 +18,7 @@ const player = new Player(spotify, queue)
 player.tick()
 
 const { Connection } = require("./connection.js")
-const connection = new Connection(app, player, spotify, queue)
+const connection = new Connection(app, player, spotify, queue, permissions)
 const http = connection.get()
 connection.open()
 connection.tick()
