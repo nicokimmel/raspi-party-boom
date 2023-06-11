@@ -124,7 +124,8 @@ class Connection {
                 ready: this.spotify.isReady()
             }
             const networkData = {
-                clients: this.shell.getClientList()
+                connected: this.shell.getConnectedClients(),
+                blocked: this.shell.getBlockedClients()
             }
             this.io.emit("tick", playerData, queueData, spotifyData, networkData)
         }, TICK_RATE)
