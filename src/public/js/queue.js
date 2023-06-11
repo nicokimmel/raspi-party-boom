@@ -38,7 +38,6 @@ function refreshDeviceStatus(spoitfyData) {
     }
 }
 
-
 function refreshQueue(songList) {
 
     emptyQueueList()

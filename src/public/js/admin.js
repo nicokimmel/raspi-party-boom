@@ -17,7 +17,14 @@ function refreshConnectionLists(networkData) {
         let permission = parseInt($(this).attr('permission'))
 
         console.log("Change Permissin of entry " + (index)+ " / with " + permission)
-        // spotifyQueueRemove(index + 1)
+        permissionsChange(connected[index][0], permission)
+    })
+
+    $('.bannHammer').on('click', function () {
+        let index = parseInt($(this).siblings('.index').val())
+
+        console.log("Banned user " + (index))
+        permissionsChange(connected[index][0], 4)
     })
 }
 
@@ -46,7 +53,7 @@ function addConnectionEntry(hostname, mac, index, permission) {
                     </div>
                 </div>       
                 <div class="col-2">                              
-                    <button type="button" class="btn removeFromQueueButton" style="width: 100%; height: 100%">
+                    <button type="button" class="btn bannHammer" style="width: 100%; height: 100%">
                         <i class="bi bi-hammer"></i>
                     </button>
                     <input type="hidden" value="${index}" class="index"></input>

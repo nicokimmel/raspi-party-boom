@@ -71,3 +71,7 @@ function queueMove(oldIndex, newIndex) {
 function spotifyLoop() {
     socket.emit('spotify-loop')
 }
+
+function permissionsChange(mac, group) {
+    socket.emit('permission-change', mac, group)
+}
