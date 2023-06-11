@@ -116,7 +116,7 @@ class Connection {
             })
 
             socket.on("permissions-change", (mac, group) => {
-                if (!this.isMac(mac)) { return }
+                //if (!this.isMac(mac)) { return }
                 if (group < Group.ADMIN || group > Group.BLOCKED) { return }
                 if (this.permissions.getGroup(socket.getMac()) < Group.ADMIN) { return }
                 this.permissions.setGroup(mac, group)

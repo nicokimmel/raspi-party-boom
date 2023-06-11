@@ -35,15 +35,17 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
 
-	connection.lookupMac(req.ip, (mac, ip) => {
-
-		let isAdmin = mac === null //process.env.ADMIN_MAC
-		if (req.query.code) {
+	connection.lookupMac(req.ip, (mac, address, ip) => {
+		if(this.permissions.isEmpty()) {
+			this.permissions.setGroup(mac, Group.ADMIN)	
+		}
+		
+		let isAdmin = permissions.getGroup(mac) === Group.ADMIN
+		if (isAdmin && req.query.code) {
 			spotify.requestAccessToken(req.query.code, onSpotifyReady)
 			res.redirect("/")
 			return
 		}
-
 		res.render(path.join(__dirname, 'public', 'client.ejs'), { isAdmin: isAdmin, spotifyURL: spotify.getLoginURL() })
 	})
 })
