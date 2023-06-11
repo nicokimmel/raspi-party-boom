@@ -1,5 +1,7 @@
 const arp = require('@network-utils/arp-lookup')
 
+const { ShellWrapper } = require("./shell.js")
+
 const TICK_RATE = 500
 
 class Connection {
@@ -8,8 +10,9 @@ class Connection {
         this.http = require("http").Server(app)
         this.io = require("socket.io")(this.http)
         this.player = player
-        this.queue = queue
         this.spotify = spotify
+        this.queue = queue
+        this.shell = new ShellWrapper()
     }
 
     get() {
@@ -120,7 +123,10 @@ class Connection {
             const spotifyData = {
                 ready: this.spotify.isReady()
             }
-            this.io.emit("tick", playerData, queueData, spotifyData)
+            const networkData = {
+                clients: this.shell.getClientList()
+            }
+            this.io.emit("tick", playerData, queueData, spotifyData, networkData)
         }, TICK_RATE)
     }
 
