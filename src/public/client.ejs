@@ -31,9 +31,16 @@
     </div>
   </div>
 
-  <div id="adminBadge" class="p-2 ps-2">
-      <div class="badge h-100 bg-spotify-dark text-dark">Admin</div>
+  <div id="adminBadge row" class="p-2 ps-2">
+    <div class="row">
+      <div class="col">
+        <button type="button" data-bs-toggle="offcanvas" href="#offCanvasAdmin" role="button"
+                aria-controls="offCanvasAdmin" class="btn btn bg-spotify text-dark <% if (!isAdmin) { %> d-none<% } %>">
+                Admin <i class="bi bi-gear"></i></button>        
+      </div>
+    </div>
   </div>
+
 
 
 
@@ -148,7 +155,33 @@
     </div>
   </div>
 
-  <!-- Off canvas for the admin pannel to the right -->
+  <!-- Off canvas for the history bar to the right -->
+  <div class="offcanvas offcanvas-end" style="width:100%" tabindex="-1" id="offcanvasHistory"
+    aria-labelledby="offcanvasHistoryLabel">
+
+    <div class="offcanvas-body container bg-dark-subtle">
+
+      <h5 class="fs-6">History</h5>
+      <br>
+      <ul class="p-0 mb-5 pb-2 list-group" id="historyList">
+
+        <!-- History entires -->
+
+      </ul>
+      
+      <div class="container text-center fixed-bottom bg-dark">
+        <div class="row m-1">
+
+          <div class="col">
+            <button type="button" class="btn btn-lg" data-bs-dismiss="offcanvas"><i class="bi bi-house"></i></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Off canvas for the admin pannel to the top -->
   <% if (isAdmin) { %>
     <%- include('../private/admin.ejs') %>
       <% } %>
@@ -165,9 +198,10 @@
               <button type="button" class="btn btn-lg"><i class="bi bi-house"></i></button>
             </div>
             <div class="col">
-              <button type="button" data-bs-toggle="offcanvas" href="#offCanvasAdmin" role="button"
-                aria-controls="offCanvasAdmin" class="btn btn-lg<% if (!isAdmin) { %> disabled<% } %>"><i
-                  class="bi bi-gear"></i></button>
+              <button type="button" data-bs-toggle="offcanvas" href="#offcanvasHistory" role="button"
+                aria-controls="offcanvasHistory" class="btn btn-lg">
+                <i class="bi bi-list-check"></i>
+              </button>
             </div>
 
           </div>
