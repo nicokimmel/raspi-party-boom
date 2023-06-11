@@ -29,7 +29,7 @@ class ShellWrapper {
 
     getConnectedClients() {
         return [
-            ["00:00:00:00:00:00", "localhost    ", 2],
+            ["00:00:00:00:00:00", "localhost", 2],
             ["AA:BB:CC:DD:EE:FF", "Bob's Smartphone", 2],
             ["11:22:33:44:55:66", "Charlie's Tablet", 1],
             ["FF:EE:DD:CC:BB:AA", "David's Desktop", 2],
