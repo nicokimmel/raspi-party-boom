@@ -15,7 +15,11 @@ class Permissions {
         this.path = path
         this.permissionMap = {}
     }
-
+    
+    isEmpty() {
+        return Object.keys(this.permissionMap).length === 0
+    }
+    
     getGroup(mac) {
         if (!this.permissionMap[mac]) {
             this.permissionMap[mac] = Group.DEFAULT
@@ -28,18 +32,21 @@ class Permissions {
         if (group < Group.ADMIN || group > Group.BLOCKED) { return }
         this.permissionMap[mac] = group
         this.saveToFile()
+        console.log("[PERMISSIONS] Set group of " + mac + " to " + group)
     }
 
     loadFromFile() {
         if (!fs.existsSync(this.path)) { return }
         let rawData = fs.readFileSync(this.path);
         let jsonData = JSON.parse(rawData);
+        console.log("[PERMISSIONS] Loaded permissions from " + this.path)
         return jsonData;
     }
 
     saveToFile() {
         let jsonData = JSON.stringify(this.permissionMap);
         fs.writeFileSync(this.path, jsonData);
+        console.log("[PERMISSIONS] Saved permissions to " + this.path)
     }
 }
 
