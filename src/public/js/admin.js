@@ -2,13 +2,23 @@
 const connectedList = $('#connectedList')
 const blockedList = $('#blockedList')
 
-function refreshConnectionLists(connectedClientList, blockedList) {
+function refreshConnectionLists(networkData) {
     
+    let connected = networkData.connected
     emptyConnectionLists()
-    let i = 0
-    for (const [mac, hostname] of Object.entries(connectedClientList)) {
-        addConnectionEntry(hostname, mac, i++)
+    
+    for (let i = 0; i < connected.length; i++) {
+        addConnectionEntry(connected[i][1], connected[i][0], i, connected[i][2])
     }
+
+    $('.permissionButton').on('click', function () {
+        console.log("Click")
+        let index = parseInt($(this).siblings('.index').val())
+        let permission = parseInt($(this).attr('permission'))
+
+        console.log("Change Permissin of entry " + (index)+ " / with " + permission)
+        // spotifyQueueRemove(index + 1)
+    })
 }
 
 function emptyConnectionLists() {
@@ -17,24 +27,14 @@ function emptyConnectionLists() {
 
 }
 
-function addConnectionEntry(hostname, mac, index) {
+function addConnectionEntry(hostname, mac, index, permission) {
 
     console.log('Entry added connection')
     connectedList.append(`
     <li class="border rounded list-group-item m-0 mt-2 p-0">
         <div class="m-0">
-            <div class="row g-0">                                      
-                <div class="col-2">
-                    <select class="text-center form-select m-auto h-100 w-100" aria-label="Default select example">
-                       
-  >    
-                    <option value="1"><i class="bi bi-code-slash"></i></option>
-                        <option value="2"><div><i class="bi bi-boombox"></i></div></option>                        
-                        <option value="3"><i class="bi bi-headphones"></i></option>
-                        <option value="4"><i class="bi bi-person"></i>.</option>
-                    </select>
-                </div>    
-                <div class="col-8">
+            <div class="row g-0">   
+                <div class="col-10">
                     <div class="m-2">
                         <div class="card-text">
                             <div class="text-truncate">
@@ -51,22 +51,35 @@ function addConnectionEntry(hostname, mac, index) {
                     </button>
                     <input type="hidden" value="${index}" class="index"></input>
                 </div>            
-            </div class="row">
+            </div class="row" id="permissionList">
                 <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 1}" autocomplete="off" checked>
-                    <label class="btn btn-outline-success border-spotify" for="${hostname + 1}"><i class="bi bi-code-slash"></i></label>
+                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 1}" autocomplete="off" ${permission == 0 ? 'checked' : ''}>
+                    <label class="btn btn-outline-success border-spotify permissionButton" for="${hostname + 1}" permission="0">
+                        <i class="bi bi-code-slash"></i>                        
+                    </label>
                 
-                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 2}" autocomplete="off">
-                    <label class="btn btn-outline-success border-spotify" for="${hostname + 2}"><i class="bi bi-boombox"></i></label>
+                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 2}" autocomplete="off" ${permission == 1 ? 'checked' : ''}>
+                    <label class="btn btn-outline-success border-spotify permissionButton" for="${hostname + 2}" permission="1">
+                        <i class="bi bi-boombox"></i>
+                    </label>
                 
-                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 3}" autocomplete="off">
-                    <label class="btn btn-outline-success border-spotify" for="${hostname + 3}"><i class="bi bi-person"></i></label>
+                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 3}" autocomplete="off" ${permission == 2 ? 'checked' : ''}>
+                    <label class="btn btn-outline-success border-spotify permissionButton" for="${hostname + 3}" permission="2">
+                        <i class="bi bi-person"></i>
+                    </label>
 
-                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 4}" autocomplete="off">
-                    <label class="btn btn-outline-success border-spotify" for="${hostname + 4}"><i class="bi bi-headphones"></i></label>
+                    <input type="radio" class="btn-check" name="${hostname}" id="${hostname + 4}" autocomplete="off" ${permission == 3 ? 'checked' : ''}>
+                    <label class="btn btn-outline-success border-spotify permissionButton" for="${hostname + 4}" permission="3">
+                        <i class="bi bi-headphones"></i>
+                    </label>
+                    <input type="hidden" value="${index}" class="index"></input>
                 <div>
             </div>
         </div>
     </li>      
 `)
+}
+
+function checkPermission() {
+
 }

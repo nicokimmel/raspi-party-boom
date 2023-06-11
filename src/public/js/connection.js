@@ -6,7 +6,7 @@ socket.on('tick', (playerData, queueData, spotifyData, networkData) => {
     refreshDeviceStatus(spotifyData)
     refreshPlayButton(playerData.playing)
     refreshLoopbutton()
-    refreshConnectionLists(networkData.connected, networkData.blocked)
+    refreshConnectionLists(networkData)
 
     let song = playerData.song
     let queue = queueData.upcoming
