@@ -36,3 +36,7 @@ function searchSpotify(query) {
 function queueMove(oldIndex, newIndex) {
     socket.emit('spotify-queue-move', oldIndex, newIndex)
 }
+
+function spotifyLoop() {
+    socket.emit('spotify-loop')
+}

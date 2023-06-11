@@ -5,6 +5,7 @@
 
 const spotifyWarningSign = $('#spotifyWarning')
 const searchButton = $('#Searchbutton')
+const adminBadge = $('adminBadge')
 
 
 let isPlaying
@@ -20,13 +21,14 @@ socket.on('tick', (playerData, queueData, spotifyData) => {
 
     refreshDeviceStatus(spotifyData)
     refreshPlayButton(playerData.playing)
+    refreshLoopbutton()
 
     let song = playerData.song
     let queue = queueData.upcoming
     let history = queueData.previous
     let time = playerData.time
     isPlaying = playerData.playing
-
+    loop = playerData.loop
     refreshProgressbar(song, time)
 
     if (!song) { return }
@@ -54,6 +56,7 @@ function refreshDeviceStatus(spoitfyData) {
     if (spoitfyData.ready) {
         spotifyWarningSign.addClass('d-none')
         searchButton.removeClass('disabled')
+        adminBadge.removeClass('d-none')
         //skipBackwardButton.removeClass('disabled')
         //playButton.removeClass('disabled')
         //skipForwardButton.removeClass('disabled')
@@ -61,6 +64,7 @@ function refreshDeviceStatus(spoitfyData) {
     } else {
         spotifyWarningSign.removeClass('d-none')
         searchButton.addClass('disabled')
+        adminBadge.addClass('d-none')
         //skipBackwardButton.addClass('disabled')
         //playButton.addClass('disabled')
         //skipForwardButton.addClass('disabled')
@@ -82,8 +86,8 @@ function refreshQueue(songList) {
     $('#queueList').find('.removeFromQueueButton').on('click', function () {
         let index = parseInt($(this).siblings('.index').val())
         let selectedSong = currentQueue[index]
-        console.log("Delete:" + index + " / " + selectedSong.title)
-        spotifyQueueRemove(index)
+        console.log("Delete:" + (index + 1)+ " / " + selectedSong.title)
+        spotifyQueueRemove(index + 1)
     })
 }
 

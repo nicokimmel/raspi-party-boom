@@ -3,10 +3,18 @@
     --spotify-dark: #17ab4b;
 }
 
-.spotify-color {
+.bg-spotify {
     background-color: var(--spotify);
 }
 
-.spotify-color-dark {
+.bg-spotify-dark {
     background-color: var(--spotify-dark);
+}
+
+.text-spotify {
+    color: var(--spotify-dark);
+}
+
+.border-spotify {
+    border: 5px solid red;
 }

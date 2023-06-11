@@ -9,12 +9,14 @@ const currentSongImageBackground = $('#currentSongImageBackground')
 // Player controlls
 const skipBackwardButton = $('#skipBackwardButton')
 const playButton = $('#playButton')
+const loopButton = $('#loopButton')
 const skipForwardButton = $('#skipForwardButton')
 const progressBar = $('#progressBar')
 
 // Default values
 const defaultSongName = "No song playing"
 const defaultSongArtist = "No artist involved"
+let loop = false
 
 // [Progressbar]
 
@@ -74,13 +76,21 @@ function refreshPlayButton(isPlaying) {
     if (isPlaying) {
         playButton.append(`<i class="bi bi-pause"></i>`)
         playButton.removeClass('btn-success')
-        playButton.removeClass('spotify-color')
+        playButton.removeClass('bg-spotify')
         playButton.addClass('btn-secondary')
     } else {
         playButton.append(`<i class="bi bi-play"></i>`)
         playButton.addClass('btn-success')
-        playButton.addClass('spotify-color')
+        playButton.addClass('bg-spotify')
         playButton.removeClass('btn-secondary')
+    }    
+}
+
+function refreshLoopbutton() {
+    if (loop) {
+        loopButton.addClass('text-success')
+    } else { 
+        loopButton.removeClass('text-success')
     }
 }
 
@@ -98,3 +108,9 @@ function refreshCurrentTitle(song) {
     }
 
 }
+
+loopButton.on('click', function () {
+    loop = !loop
+    spotifyLoop()
+    refreshLoopbutton()
+})
