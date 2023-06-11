@@ -17,40 +17,6 @@ let seeking
 refreshProgressbar(null, 0)
 refreshCurrentTitle(null)
 
-socket.on('tick', (playerData, queueData, spotifyData) => {
-
-    refreshDeviceStatus(spotifyData)
-    refreshPlayButton(playerData.playing)
-    refreshLoopbutton()
-
-    let song = playerData.song
-    let queue = queueData.upcoming
-    let history = queueData.previous
-    let time = playerData.time
-    isPlaying = playerData.playing
-    loop = playerData.loop
-    refreshProgressbar(song, time)
-
-    if (!song) { return }
-
-    // Refresh Song only on Change
-    if (currentSong !== song) {
-        refreshCurrentTitle(song)
-        currentSong = song
-    }
-
-    // Refresh Queue only on change
-    if (!songArraysEqual(currentQueue, queue)) {
-        refreshQueue(queue)
-        refreshHistory(history)
-        currentQueue = queue
-    }
-})
-
-
-
-
-
 
 function refreshDeviceStatus(spoitfyData) {
     if (spoitfyData.ready) {

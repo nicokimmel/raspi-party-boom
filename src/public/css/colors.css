@@ -16,5 +16,5 @@
 }
 
 .border-spotify {
-    border: 5px solid red;
+    border-color: var(--spotify);
 }
