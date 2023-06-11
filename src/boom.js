@@ -36,8 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', (req, res) => {
 
 	connection.lookupMac(req.ip, (mac, address, ip) => {
-		if(this.permissions.isEmpty()) {
-			this.permissions.setGroup(mac, Group.ADMIN)	
+				
+		if(permissions.isEmpty()) {
+			console.log('Found the first admin')
+			permissions.setGroup(mac, Group.ADMIN)	
 		}
 		
 		let isAdmin = permissions.getGroup(mac) === Group.ADMIN
