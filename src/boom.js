@@ -5,7 +5,7 @@ const path = require("path")
 const app = express()
 
 const { Permissions, Group } = require("./permissions.js")
-const permissions = new Permissions(path.join(__dirname, "permissions.json"))
+const permissions = new Permissions(path.join(__dirname, "./permissions.json"))
 
 const { SpotifyWrapper } = require("./spotify.js")
 const spotify = new SpotifyWrapper()
@@ -34,12 +34,13 @@ function onSpotifyReady() {
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-
 	connection.lookupMac(req.ip, (mac, address, ip) => {
-		if(this.permissions.isEmpty()) {
-			this.permissions.setGroup(mac, Group.ADMIN)	
+
+		if (permissions.isEmpty()) {
+			console.log("[CONNECTION] No permissions found, setting " + mac + " to admin")
+			permissions.setGroup(mac, Group.ADMIN)
 		}
-		
+
 		let isAdmin = permissions.getGroup(mac) === Group.ADMIN
 		if (isAdmin && req.query.code) {
 			spotify.requestAccessToken(req.query.code, onSpotifyReady)

@@ -17,7 +17,7 @@ class Connection {
         this.queue = queue
         this.permissions = permissions
         this.shell = new ShellWrapper()
-        this.lookupMap = {}
+        this.lookupTable = {}
     }
 
     get() {
@@ -28,12 +28,10 @@ class Connection {
         this.io.on("connection", (socket) => {
 
             let address = socket.handshake.address
-            this.lookupMac(address, (mac, address, ip) => {
-                console.log("[CONNECTION] " + ip + " connected as " + mac)
-            })
+            console.log("[CONNECTION] " + address + " connected as " + this.lookupTable[address])
 
             socket.getMac = () => {
-                return this.lookupMac[address]
+                return this.lookupTable[address]
             }
 
             socket.on("disconnect", () => {
@@ -116,7 +114,7 @@ class Connection {
             })
 
             socket.on("permissions-change", (mac, group) => {
-                //if (!this.isMac(mac)) { return }
+                if (!this.isMac(mac)) { return }
                 if (group < Group.ADMIN || group > Group.BLOCKED) { return }
                 if (this.permissions.getGroup(socket.getMac()) < Group.ADMIN) { return }
                 this.permissions.setGroup(mac, group)
@@ -154,9 +152,14 @@ class Connection {
         }
         arp.toMAC(ip)
             .then((mac) => {
-                this.lookupMap[address] = mac
+                if (mac === null) { mac = "00:00:00:00:00:00" }
+                this.lookupTable[address] = mac
                 callback(mac, address, ip)
             })
+    }
+
+    getMac(address) {
+        return this.lookupTable[address]
     }
 
     isMac(mac) {
