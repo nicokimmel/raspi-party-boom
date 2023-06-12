@@ -57,10 +57,10 @@ function spotifyResume() {
 }
 
 function spotifySeek(value) {
-    socket.emit('spotify-seek', value)
+    socket.emit('spotify-seek', parseInt(value))
 }
 
-function searchSpotify(query) {
+function spotifySearch(query) {
     socket.emit('spotify-search', query)
 }
 

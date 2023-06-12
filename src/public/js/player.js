@@ -20,24 +20,20 @@ let loop = false
 
 // [Progressbar]
 
-progressBar.on('mousedown', function () {
-    seeking = true
-})
-
 progressBar.on('change', function () {
     seeking = false
-    console.log('ASDF' + progressBar.val())
     spotifySeek(progressBar.val())
+    console.log("Seeking to " + progressBar.val())
 })
 
 progressBar.on('input', function () {
-    if (seeking)
-        currentSongPlaytimeLabel.text(formatMilliseconds(parseInt(progressBar.val())))
+    seeking = true
+    currentSongPlaytimeLabel.text(formatMilliseconds(parseInt(progressBar.val())))
 })
 
 function refreshProgressbar(song, time) {
-    if (song != null) {
-        if(!seeking)
+    if (song) {
+        if (!seeking)
             currentSongPlaytimeLabel.text(formatMilliseconds(time))
 
         currentSongLengthLabel.text(formatMilliseconds(song.duration))
@@ -45,10 +41,10 @@ function refreshProgressbar(song, time) {
     } else {
         currentSongPlaytimeLabel.text('00:00')
         currentSongLengthLabel.text('00:00')
-    }   
+    }
 
     if (!seeking) {
-        progressBar.val((time))        
+        progressBar.val((time))
     }
 }
 
@@ -83,19 +79,19 @@ function refreshPlayButton(isPlaying) {
         playButton.addClass('btn-success')
         playButton.addClass('bg-spotify')
         playButton.removeClass('btn-secondary')
-    }    
+    }
 }
 
 function refreshLoopbutton() {
     if (loop) {
         loopButton.addClass('text-success')
-    } else { 
+    } else {
         loopButton.removeClass('text-success')
     }
 }
 
 function refreshCurrentTitle(song) {
-    if (song != null) {
+    if (song) {
         currentTitleTextLabel.text(song.title)
         currentArtistTextLabel.text(song.artist)
         currentSongImage.attr('src', '' + song.image)

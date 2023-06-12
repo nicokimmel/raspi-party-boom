@@ -7,7 +7,7 @@ $('#searchTextInput').on('keyup', function (e) {
             deleteCurrentEntries()
             return
         }
-        searchSpotify($('#searchTextInput').val())
+        spotifySearch($('#searchTextInput').val())
     }, 500)
 })
 
