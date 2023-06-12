@@ -39,21 +39,31 @@ class Connection {
             })
 
             socket.on("spotify-search", (query) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.USER) { return }
                 if (!this.spotify.isReady()) { return }
+                if (typeof query !== "string") { return }
+                if (query.length < 3) { return }
+                
                 this.spotify.search(query, (songList) => {
                     socket.emit("spotify-search", songList)
                 })
             })
 
-            socket.on("spotify-queue", () => {
-                socket.emit("spotify-queue", this.queue.getList())
-            })
-
             socket.on("spotify-queue-move", (from, to) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
+                if (typeof from !== "number" || typeof to !== "number") { return }
+                if (from < 0 || from >= this.queue.getSize()) { return }
+                if (to < 0 || to >= this.queue.getSize()) { return }
+                if (!this.queue.getSong(from) || !this.queue.getSong(to)) { return }
+                
                 this.queue.moveSong(from, to)
             })
 
             socket.on("spotify-queue-add", (song) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.USER) { return }
+                //check if song is valid
+                if (!song) { return }
+
                 this.queue.addSong(song)
                 if (!this.player.getCurrentSong()) {
                     this.queue.nextSong()
@@ -62,61 +72,85 @@ class Connection {
             })
 
             socket.on("spotify-queue-remove", (index) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
+                if (typeof index !== "number") { return }
+                if (index < 0 || index >= this.queue.getSize()) { return }
                 if (!this.queue.getSong(index)) { return }
+
                 this.queue.removeSongByIndex(index)
             })
 
             socket.on("spotify-shuffle", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
+
                 this.queue.shuffle()
             })
 
             socket.on("spotify-next", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
+
                 const song = this.queue.nextSong()
-                if (song != null) {
-                    socket.emit("spotify-next", song)
-                    this.player.play(song)
-                } else {
+                if (!song) {
                     this.player.stop()
+                    return
                 }
+                this.player.play(song)
             })
 
             socket.on("spotify-previous", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
+
                 const song = this.queue.previousSong()
-                socket.emit("spotify-next", song)
                 this.player.play(song)
             })
 
             socket.on("spotify-play", (index) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
-                let song = this.queue.getSongByIndex(index)
+                if (typeof index !== "number") { return }
+                if (index < 0 || index >= this.queue.getSize()) { return }
+
+                let song = this.queue.getSong(index)
                 this.player.play(song)
             })
 
             socket.on("spotify-pause", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
+
                 this.player.pause()
             })
 
             socket.on("spotify-resume", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
+
                 this.player.resume()
             })
 
             socket.on("spotify-seek", (time) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
                 if (!this.spotify.isReady()) { return }
+                if (typeof time !== "number") { return }
+                if (time < 0 || time > this.player.getCurrentSong().duration) { return }
+
                 this.player.seek(parseInt(time))
             })
 
             socket.on("spotify-loop", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.DJ) { return }
+
                 this.player.toggleLoop()
             })
 
             socket.on("permissions-change", (mac, group) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
                 if (!this.isMac(mac)) { return }
+                if (typeof group !== "number") { return }
                 if (group < Group.ADMIN || group > Group.BLOCKED) { return }
-                if (this.permissions.getGroup(socket.getMac()) < Group.ADMIN) { return }
+
                 this.permissions.setGroup(mac, group)
             })
         })

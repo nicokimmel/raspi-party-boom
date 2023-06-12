@@ -12,11 +12,15 @@ class Queue {
     getList() {
         return this.queue
     }
-    
+
+    getSize() {
+        return this.queue.length
+    }
+
     getUpcomingList() {
         return this.queue.slice(this.index + 1)
     }
-    
+
     getPreviousList() {
         return this.queue.slice(0, this.index)
     }
