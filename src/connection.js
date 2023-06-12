@@ -28,6 +28,7 @@ class Connection {
         this.io.on("connection", (socket) => {
 
             let address = socket.handshake.address
+            let hostname = socket.handshake.headers["user-agent"]
             console.log("[CONNECTION] " + address + " connected as " + this.lookupTable[address])
 
             socket.getMac = () => {

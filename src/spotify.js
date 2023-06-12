@@ -2,13 +2,16 @@ const SpotifyWebApi = require("spotify-web-api-node")
 const { ShellWrapper } = require("./shell.js")
 
 const SCOPES = ['user-modify-playback-state', 'user-read-playback-state', 'user-read-currently-playing', "playlist-modify-public", "playlist-modify-private"]
-const REDIRECT_URI = 'http://localhost:3000'
 const SCAN_INTERVAL = 1000
 
 class SpotifyWrapper {
 
     constructor() {
-        this.api = new SpotifyWebApi({ clientId: process.env.SPOTIFY_CLIENT_ID, clientSecret: process.env.SPOTIFY_CLIENT_SECRET, redirectUri: REDIRECT_URI })
+        this.api = new SpotifyWebApi({
+            clientId: process.env.SPOTIFY_CLIENT_ID,
+            clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+            redirectUri: process.env.SPOTIFY_REDIRECT_URI
+        })
         this.url = this.api.createAuthorizeURL(SCOPES)
         this.shell = new ShellWrapper()
         this.deviceId = null
