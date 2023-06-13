@@ -8,20 +8,16 @@ class ShellWrapper {
         })
     }
 
-    setHostapd(ssid, passphrase) {
-
-        /* ENABLE HOSTAPD.SERVICE AS --USER */
-
-        exec(`sed -i -s "s/^ssid=.*/ssid=${ssid}/" hostapd.conf`, (error, stdout, stderr) => {
+    setHostapd(ssid, passphrase) {        
+        exec(`sudo sed -i -s "s/^ssid=.*/ssid=${ssid}/" /etc/hostapd/hostapd.conf`, (error, stdout, stderr) => {
             console.log(stderr)
 
-            exec(`sed -i -s "s/^wpa_passphrase=.*/wpa_passphrase=${passphrase}/" hostapd.conf`, (error, stdout, stderr) => {
+            exec(`sudo sed -i -s "s/^wpa_passphrase=.*/wpa_passphrase=${passphrase}/" /etc/hostapd/hostapd.conf`, (error, stdout, stderr) => {
                 console.log(stderr)
 
-                exec(`systemctl --user restart hostapd`, (error, stdout, stderr) => {
+                exec(`sudo systemctl --user restart hostapd`, (error, stdout, stderr) => {
                     console.log(stderr)
-
-                    console.log("[SHELL] SSID and passphrase set")
+                    console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase)
                 })
             })
         })

@@ -154,6 +154,15 @@ class Connection {
 
                 this.permissions.setGroup(mac, group)
             })
+            
+            socket.on("wifi-change", (ssid, password) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
+                if (typeof ssid !== "string" || typeof password !== "string") { return }
+                if (ssid.length < 2 || ssid.length > 32) { return }
+                if (password.length < 8 || password.length > 60) { return }
+                
+                this.shell.setHostapd(ssid, password)
+            })
         })
     }
 
