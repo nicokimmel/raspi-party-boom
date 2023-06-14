@@ -73,5 +73,5 @@ function spotifyLoop() {
 }
 
 function permissionsChange(mac, group) {
-    socket.emit('permission-change', mac, group)
+    socket.emit('permissions-change', mac, group)
 }
