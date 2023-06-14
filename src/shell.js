@@ -1,8 +1,9 @@
 const fs = require("fs")
 const { exec } = require("child_process")
 
+var WPA_SUPPLICANT = "/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
 var HOSTAPD_CONF = "/etc/hostapd/hostapd.conf"
-var HOSTAPD_DENY = "/home/nicokimmel/hostapd.deny" //"/etc/hostapd/hostapd.deny"
+var HOSTAPD_DENY = "/etc/hostapd/hostapd.deny"
 
 class ShellWrapper {
 
@@ -13,13 +14,30 @@ class ShellWrapper {
         })
     }
 
-    setHostapd(ssid, passphrase) {
+    setHomeWifi(ssid, passphrase) {
+        //https://www.jeffgeerling.com/blog/2021/working-multiple-wifi-interfaces-on-raspberry-pi
+        exec(`sudo sed -i -s "s/^ssid=.*/ssid=${ssid}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
+            console.log(stderr)
+
+            exec(`sudo sed -i -s "s/^psk=.*/psk=${passphrase}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
+                console.log(stderr)
+                console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase + " for home wifi")
+
+                exec(`sudo ifconfig wlan0 down && sudo ifconfig wlan0 up`, (error, stdout, stderr) => {
+                    console.log(stderr)
+                    console.log("[SHELL] Restarted wlan0")
+                })
+            })
+        })
+    }
+
+    setGuestWifi(ssid, passphrase) {
         exec(`sudo sed -i -s "s/^ssid=.*/ssid=${ssid}/" ${HOSTAPD_CONF}`, (error, stdout, stderr) => {
             console.log(stderr)
 
             exec(`sudo sed -i -s "s/^wpa_passphrase=.*/wpa_passphrase=${passphrase}/" ${HOSTAPD_CONF}`, (error, stdout, stderr) => {
                 console.log(stderr)
-                console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase)
+                console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase + " for guest wifi")
 
                 exec(`sudo systemctl --user restart hostapd`, (error, stdout, stderr) => {
                     console.log(stderr)
@@ -42,11 +60,8 @@ class ShellWrapper {
     }
 
     getBlockedClients() {
-        let blockedClients = []
         const filterList = fs.readFileSync(HOSTAPD_DENY, "utf-8")
-        filterList.split(/\r?\n/).forEach(mac => {
-            blockedClients.push([mac, 4]) //Soll die ShellWrapper Klasse auch die Gruppen kennen?
-        })
+        let blockedClients = filterList.split(/\r?\n/)
         console.log("[SHELL] Get blocked clients (" + blockedClients.length + ")")
         return blockedClients
     }

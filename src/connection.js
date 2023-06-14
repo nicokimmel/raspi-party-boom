@@ -6,7 +6,6 @@ const { Group } = require("./permissions.js")
 const TICK_RATE = 500
 const MAC_PATTERN = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[0-9a-fA-F]{4}\.[0-9a-fA-F]{4})$/
 
-
 class Connection {
 
     constructor(app, player, spotify, queue, permissions) {
@@ -44,7 +43,7 @@ class Connection {
                 if (!this.spotify.isReady()) { return }
                 if (typeof query !== "string") { return }
                 if (query.length < 3) { return }
-                
+
                 this.spotify.search(query, (songList) => {
                     socket.emit("spotify-search", songList)
                 })
@@ -56,7 +55,7 @@ class Connection {
                 if (from < 0 || from >= this.queue.getSize()) { return }
                 if (to < 0 || to >= this.queue.getSize()) { return }
                 if (!this.queue.getSong(from) || !this.queue.getSong(to)) { return }
-                
+
                 this.queue.moveSong(from, to)
             })
 
@@ -154,14 +153,23 @@ class Connection {
 
                 this.permissions.setGroup(mac, group)
             })
-            
-            socket.on("wifi-change", (ssid, password) => {
+
+            socket.on("wifi-change-home", (ssid, password) => {
                 if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
                 if (typeof ssid !== "string" || typeof password !== "string") { return }
                 if (ssid.length < 2 || ssid.length > 32) { return }
                 if (password.length < 8 || password.length > 60) { return }
-                
-                this.shell.setHostapd(ssid, password)
+
+                this.shell.setHomeWifi(ssid, password)
+            })
+
+            socket.on("wifi-change-guest", (ssid, password) => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
+                if (typeof ssid !== "string" || typeof password !== "string") { return }
+                if (ssid.length < 2 || ssid.length > 32) { return }
+                if (password.length < 8 || password.length > 60) { return }
+
+                this.shell.setGuestWifi(ssid, password)
             })
         })
     }
@@ -182,8 +190,18 @@ class Connection {
                 ready: this.spotify.isReady()
             }
             const networkData = {
-                connected: this.shell.getConnectedClients(),
-                blocked: this.shell.getBlockedClients()
+                connected: [
+                    ["00:1A:8C:12:5F:AB", "#5FAB", 3],
+                    ["98:D3:45:EF:2B:76", "#2B76", 1],
+                    ["AA:BE:27:8F:6D:34", "#6D34", 2],
+                    ["12:34:56:78:90:AB", "#90AB", 2],
+                    ["CD:EF:12:34:56:78", "#5678", 3]
+                ], //this.shell.getConnectedClients(),
+                blocked: [
+                    ["11:22:33:44:55:AA", "#55AA", 4],
+                    ["66:77:88:99:00:BB", "#00BB", 4],
+                    ["CC:DD:EE:FF:11:22", "11:22", 4]
+                ]//this.shell.getBlockedClients()
             }
             this.io.emit("tick", playerData, queueData, spotifyData, networkData)
         }, TICK_RATE)
