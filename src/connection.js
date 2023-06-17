@@ -10,8 +10,8 @@ const MAC_PATTERN = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[
 class Connection {
 
     constructor(app, player, spotify, queue, permissions) {
-        this.http = require("http").Server(app)
-        this.io = require("socket.io")(this.http)
+        this.https = require("https").Server(app)
+        this.io = require("socket.io")(this.https)
         this.player = player
         this.spotify = spotify
         this.queue = queue
@@ -21,7 +21,7 @@ class Connection {
     }
 
     get() {
-        return this.http
+        return this.https
     }
 
     open() {
