@@ -2,11 +2,19 @@
 const connectedList = $('#connectedList')
 const blockedList = $('#blockedList')
 
+const homeWifiSsid = $("#homeWifiSsid")
+const homeWifiPassword = $("#homeWifiPass")
+const guestWifiSsid = $("#guestWifiSsid")
+const guestWifiPassword = $("#guestWifiPass")
+
+const homeWifiButton = $("#homeWifiButton")
+const guestWifiButton = $("#guestWifiButton")
+
 function refreshConnectionLists(networkData) {
-    
+
     let connected = networkData.connected
     emptyConnectionLists()
-    
+
     for (let i = 0; i < connected.length; i++) {
         addConnectionEntry(connected[i][1], connected[i][0], i, connected[i][2])
     }
@@ -16,7 +24,7 @@ function refreshConnectionLists(networkData) {
         let index = parseInt($(this).siblings('.index').val())
         let permission = parseInt($(this).attr('permission'))
 
-        console.log("Change Permissin of entry " + (index)+ " / with " + permission)
+        console.log("Change Permissin of entry " + (index) + " / with " + permission)
         permissionsChange(connected[index][0], permission)
     })
 
@@ -29,9 +37,7 @@ function refreshConnectionLists(networkData) {
 }
 
 function emptyConnectionLists() {
-
     connectedList.empty()
-
 }
 
 function addConnectionEntry(hostname, mac, index, permission) {
@@ -87,6 +93,19 @@ function addConnectionEntry(hostname, mac, index, permission) {
 `)
 }
 
-function checkPermission() {
-
+function refreshSSIDs(homeSsid, guestSsid) {
+    homeWifiSsid.val(homeSsid)
+    guestWifiSsid.val(guestSsid)
 }
+
+homeWifiButton.click(function () {
+    //TODO: CHECK IF VALID (min, max)
+    socket.emit("wifi-change-home", homeWifiSsid.val(), homeWifiPassword.val())
+    $('#homeWifiModal').modal('hide')
+})
+
+guestWifiButton.click(function () {
+    //TODO: CHECK IF VALID (min, max)
+    socket.emit("wifi-change-guest", guestWifiSsid.val(), guestWifiPassword.val())
+    $('#guestWifiModal').modal('hide')
+})

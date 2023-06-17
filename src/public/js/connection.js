@@ -3,6 +3,11 @@ let socket = io()
 
 socket.on("handshake", (tag) => {
     $("#tagBadge").text(tag)
+    socket.emit("wifi-get") //ADMIN ONLY?
+})
+
+socket.on("wifi-get", (homeSsid, guestSsid) => {
+    refreshSSIDs(homeSsid, guestSsid)
 })
 
 socket.on('tick', (playerData, queueData, spotifyData, networkData) => {

@@ -156,6 +156,12 @@ class Connection {
                 this.permissions.setGroup(mac, group)
             })
 
+            socket.on("wifi-get", () => {
+                if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
+
+                socket.emit("wifi-get", this.shell.getHomeWifiSSID(), this.shell.getGuestWifiSSID())
+            })
+
             socket.on("wifi-change-home", (ssid, password) => {
                 if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
                 if (typeof ssid !== "string" || typeof password !== "string") { return }
@@ -231,7 +237,7 @@ class Connection {
     }
 
     getTag(mac) {
-        if(!mac) { return "????" }
+        if (!mac) { return "????" }
         let cleanedMAC = mac.replace(/:/g, '')
         let lastFourDigits = cleanedMAC.substr(cleanedMAC.length - 4)
         let tag = lastFourDigits.toUpperCase()

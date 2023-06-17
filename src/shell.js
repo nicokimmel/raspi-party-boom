@@ -1,7 +1,7 @@
 const fs = require("fs")
 const { exec } = require("child_process")
 
-var WPA_SUPPLICANT = "/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
+var WPA_SUPPLICANT = "/etc/wpa_supplicant/wpa_supplicant.conf"
 var HOSTAPD_CONF = "/etc/hostapd/hostapd.conf"
 var HOSTAPD_DENY = "/etc/hostapd/hostapd.deny"
 
@@ -30,6 +30,12 @@ class ShellWrapper {
             })
         })
     }
+    
+    getHomeWifiSSID() {
+        const ssid = fs.readFileSync(WPA_SUPPLICANT, "utf-8").match(/ssid="([^"]*)"/)[1]
+        console.log("[SHELL] Get home wifi SSID " + ssid)
+        return ssid   
+    }
 
     setGuestWifi(ssid, passphrase) {
         exec(`sudo sed -i -s "s/^ssid=.*/ssid=${ssid}/" ${HOSTAPD_CONF}`, (error, stdout, stderr) => {
@@ -45,6 +51,12 @@ class ShellWrapper {
                 })
             })
         })
+    }
+    
+    getGuestWifiSSID() {
+        const ssid = fs.readFileSync(HOSTAPD_CONF, "utf-8").match(/ssid=(.*)/)[1]
+        console.log("[SHELL] Get guest wifi SSID " + ssid)
+        return ssid
     }
 
     getConnectedClients() {

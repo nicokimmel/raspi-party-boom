@@ -6,15 +6,83 @@
         <h5 class="fs-6">Admin Panel</h5>
         <br>
         <div class="row">
-            <div class="col-8 m-auto mb-3">
+            <div class="col-10 m-auto mb-3">
                 <a href="<%= spotifyURL %>" class="btn btn-success btn-lg m-auto text-center text-dark bg-spotify"
                     style="width: 100%">
-                    connect spotify
+                    Spotify verbinden
                 </a>
             </div>
         </div>
+
         <hr>
 
+        <h6>WLAN Konfigurationen</h6>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Zuhause
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <form>
+                            <div class="row mb-3">
+                                <label for="homeWifiSsid" class="col-sm-2 col-form-label">SSID</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="homeWifiSsid" minlength="3" maxlength="32" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="homeWifiPass" class="col-sm-2 col-form-label">Passwort</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="homeWifiPass" minlength="8" maxlength="60" required>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#homeWifiModal">Ändern</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Gastnetz
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <form>
+                            <div class="row mb-3">
+                                <label for="guestWifiSsid" class="col-sm-2 col-form-label">SSID</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="guestWifiSsid" minlength="3" maxlength="32" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="guestWifiPass" class="col-sm-2 col-form-label">Passwort</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="guestWifiPass" minlength="8" maxlength="60" required>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#guestWifiModal">Ändern</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <h6>Verbundene Geräte</h6>
         <div class="container text-center fixed-bottom bg-dark">
             <div class="row m-1">
 

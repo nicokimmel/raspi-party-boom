@@ -20,6 +20,42 @@
 
 <body class="bg-dark-subtle">
 
+  <div class="modal" id="homeWifiModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">WLAN Konfiguration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Achtung! Bei falscher Eingabe kann der Pi die Verbindung zum Internet verlieren.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          <button type="button" class="btn btn-primary" id="homeWifiButton">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="guestWifiModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">WLAN Konfiguration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Achtung! Nach der Bestätigung wird die Verbindung zum Pi unterbrochen. Der Pi ist nach kurzer Zeit dann
+            unter der neuen SSID erreichbar.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          <button type="button" class="btn btn-primary" id="guestWifiButton">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container p-2 ps-2 text-center bg-danger border-bottom border-danger-subtle border-2" id="spotifyWarning">
     <div class="row m-1">
       <div class="col text-white">
