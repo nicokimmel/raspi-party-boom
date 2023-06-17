@@ -45,7 +45,7 @@ class ShellWrapper {
                 console.log(stderr)
                 console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase + " for guest wifi")
 
-                exec(`sudo systemctl --user restart hostapd`, (error, stdout, stderr) => {
+                exec(`sudo systemctl restart hostapd`, (error, stdout, stderr) => {
                     console.log(stderr)
                     console.log("[SHELL] Restarted hostapd service")
                 })
