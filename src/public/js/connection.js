@@ -1,6 +1,10 @@
 
 let socket = io()
 
+socket.on("handshake", (tag) => {
+    $("#tagBadge").text(tag)
+})
+
 socket.on('tick', (playerData, queueData, spotifyData, networkData) => {
 
     refreshDeviceStatus(spotifyData)

@@ -29,6 +29,14 @@ class Permissions {
         console.log("[PERMISSIONS] Get group of " + mac + ": " + this.permissionTable[mac])
         return this.permissionTable[mac]
     }
+    
+    getGroups(macList) {
+        let table = {}
+        for (let mac of macList) {
+            table[mac] = this.getGroup(mac)
+        }
+        return table
+    }
 
     setGroup(mac, group) {
         if (group < Group.ADMIN || group > Group.BLOCKED) { return }

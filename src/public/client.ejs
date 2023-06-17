@@ -4,14 +4,14 @@
 <head>
   <meta charset="utf-16" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#212529"/>
-  
+  <meta name="theme-color" content="#212529" />
+
   <title>Boom Box Alpha</title>
   <link rel="icon" type="image/x-icon" href="images/tada.png">
 
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="images/tada.png">
-  
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -20,32 +20,27 @@
 
 <body class="bg-dark-subtle">
 
-  <!-- Top information -->
+  <!-- Top information
   <div id="spotifyWarning" class="text-center fixed-top bg-danger border-bottom border-danger-subtle border-2">
     <div class="row m-1">
-
       <div class="col text-white">
         Spotify not connected!
       </div>
-
     </div>
   </div>
+  -->
+
   <% if (isAdmin) { %>
     <%- include('../private/admin.ejs') %>
-      
-  <div id="adminBadge row" class="p-2 ps-2">
-    <div class="row">
-      <div class="col">
-        <button type="button" data-bs-toggle="offcanvas" href="#offCanvasAdmin" role="button"
-                aria-controls="offCanvasAdmin" class="btn btn bg-spotify text-dark <% if (!isAdmin) { %> d-none<% } %>">
-                Admin <i class="bi bi-gear"></i></button>        
-      </div>
-    </div>
-  </div>
   <% } %>
 
-
-
+  <div class="container p-2 ps-2">
+    <span class="badge text-bg-primary"><i class="bi bi-hash"></i><span id="tagBadge">AB23</span></span>
+    <span class="badge text-bg-danger" id="adminBadge">
+      <a href="#offCanvasAdmin" data-bs-toggle="offcanvas" aria-controls="offCanvasAdmin"
+        class="link-light text-decoration-none"><i class="bi bi-code-slash"></i> Admin</a>
+    </span>
+  </div>
 
   <div class="container bg-dark">
 
@@ -53,11 +48,11 @@
     <div class="row">
       <div class="col-10 m-auto mt-5">
         <!--<div class="card text-bg-dark mr-5 ml-5">
-          <img src="test.png" class="card-img-top" id="currentSongImage" onerror='this.src="img/default.jpg"'>
-          <img src="test.png" class="card-img-top blurImage" id="currentSongImage" onerror='this.src="img/default.jpg"'>
+    <img src="test.png" class="card-img-top" id="currentSongImage" onerror='this.src="img/default.jpg"'>
+    <img src="test.png" class="card-img-top blurImage" id="currentSongImage" onerror='this.src="img/default.jpg"'>
 
-          
-        </div>-->
+    
+  </div>-->
         <div class="image-container ">
           <img src="" alt="Background Image" class="background-image rounded-3" id="currentSongImage">
           <img src="" alt="Foreground Image" class="foreground-image" id="currentSongImageBackground">
@@ -89,7 +84,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row m-0 pb-3">
       <div class="col-2 p-0">
         <button type="button" class="btn w-100 h-100 text-center"><i class="bi bi-shuffle"></i></button>
@@ -107,7 +102,8 @@
             class="bi bi-skip-forward"></i></button>
       </div>
       <div class="col-2 p-0">
-        <button type="button" id="loopButton" class="btn w-100 h-100 text-center"><i class="bi bi-arrow-repeat"></i></button>
+        <button type="button" id="loopButton" class="btn w-100 h-100 text-center"><i
+            class="bi bi-arrow-repeat"></i></button>
       </div>
 
     </div>
@@ -171,7 +167,7 @@
         <!-- History entires -->
 
       </ul>
-      
+
       <div class="container text-center fixed-bottom bg-dark">
         <div class="row m-1">
 

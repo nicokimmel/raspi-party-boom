@@ -35,6 +35,8 @@ class Connection {
                 return this.lookupTable[address]
             }
 
+            socket.emit("handshake", this.getTag(socket.getMac()))
+
             socket.on("disconnect", () => {
                 console.log("[CONNECTION] User disconnected")
             })
@@ -44,7 +46,7 @@ class Connection {
                 if (!this.spotify.isReady()) { return }
                 if (typeof query !== "string") { return }
                 if (query.length < 3) { return }
-                
+
                 this.spotify.search(query, (songList) => {
                     socket.emit("spotify-search", songList)
                 })
@@ -56,7 +58,7 @@ class Connection {
                 if (from < 0 || from >= this.queue.getSize()) { return }
                 if (to < 0 || to >= this.queue.getSize()) { return }
                 if (!this.queue.getSong(from) || !this.queue.getSong(to)) { return }
-                
+
                 this.queue.moveSong(from, to)
             })
 
@@ -154,13 +156,13 @@ class Connection {
 
                 this.permissions.setGroup(mac, group)
             })
-            
+
             socket.on("wifi-change", (ssid, password) => {
                 if (this.permissions.getGroup(socket.getMac()) > Group.ADMIN) { return }
                 if (typeof ssid !== "string" || typeof password !== "string") { return }
                 if (ssid.length < 2 || ssid.length > 32) { return }
                 if (password.length < 8 || password.length > 60) { return }
-                
+
                 this.shell.setHostapd(ssid, password)
             })
         })
@@ -182,8 +184,8 @@ class Connection {
                 ready: this.spotify.isReady()
             }
             const networkData = {
-                connected: this.shell.getConnectedClients(),
-                blocked: this.shell.getBlockedClients()
+                connected: this.permissions.getGroups(this.shell.getConnectedClients()),
+                blocked: this.permissions.getGroups(["00:1A:8C:12:5F:AB", "98:D3:45:EF:2B:76", "AA:BE:27:8F:6D:34"]) //this.shell.getBlockedClients()
             }
             this.io.emit("tick", playerData, queueData, spotifyData, networkData)
         }, TICK_RATE)
@@ -208,6 +210,14 @@ class Connection {
 
     isMac(mac) {
         return MAC_PATTERN.test(mac)
+    }
+
+    getTag(mac) {
+        if(!mac) { return "????" }
+        let cleanedMAC = mac.replace(/:/g, '')
+        let lastFourDigits = cleanedMAC.substr(cleanedMAC.length - 4)
+        let tag = lastFourDigits.toUpperCase()
+        return tag;
     }
 }
 

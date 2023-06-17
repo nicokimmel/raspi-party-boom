@@ -30,15 +30,7 @@ class ShellWrapper {
     }
 
     getConnectedClients() {
-        return [
-            ["00:00:00:00:00:00", "localhost", 2],
-            ["AA:BB:CC:DD:EE:FF", "Bob's Smartphone", 2],
-            ["11:22:33:44:55:66", "Charlie's Tablet", 1],
-            ["FF:EE:DD:CC:BB:AA", "David's Desktop", 2],
-            ["12:34:56:78:90:AB", "Emma's iPhone", 3],
-            ["98:76:54:32:10:FE", "Frank's Printer", 2],
-            ["AB:CD:EF:12:34:56", "Grace's Router", 3]
-        ];
+        return ["00:00:00:00:00:00", "AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66", "FF:EE:DD:CC:BB:AA", "12:34:56:78:90:AB", "98:76:54:32:10:FE", "AB:CD:EF:12:34:56"]
     }
 
     getBlockedClients() {

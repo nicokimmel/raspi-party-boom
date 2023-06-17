@@ -14,7 +14,7 @@ $('#searchTextInput').on('keyup', function (e) {
 let songBuffer
 
 socket.on('spotify-search', (songList) => {
-    
+
     songBuffer = songList
     deleteCurrentEntries()
 
