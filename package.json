@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/boom.js",
   "scripts": {
-    "test": "nodemon --ignore dist/ --exec \"grunt && node dist/boom.js\""
+    "test": "nodemon --ignore dist/ --exec \"grunt && node dist/boom.js\"",
+    "build": "grunt",
+    "run": "sudo node dist/boom.js"
   },
   "author": "",
   "license": "ISC",
