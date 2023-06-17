@@ -1,4 +1,5 @@
 const arp = require('@network-utils/arp-lookup')
+const fs = request("fs")
 
 const { ShellWrapper } = require("./shell.js")
 const { Group } = require("./permissions.js")
