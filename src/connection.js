@@ -12,8 +12,8 @@ class Connection {
     constructor(app, player, spotify, queue, permissions) {
         this.https = require("https").createServer(
             {
-                key: fs.readFileSync("../ssl/key.pem"),
-                cert: fs.readFileSync("../ssl/cert.pem"),
+                key: fs.readFileSync("ssl/key.pem"),
+                cert: fs.readFileSync("ssl/cert.pem"),
             },
             app
         )
