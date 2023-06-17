@@ -19,7 +19,7 @@ player.tick()
 
 const { Connection } = require("./connection.js")
 const connection = new Connection(app, player, spotify, queue, permissions)
-const https = connection.get()
+const http = connection.get()
 connection.open()
 connection.tick()
 
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 	})
 })
 
-https.listen(process.env.PORT, () => {
+http.listen(process.env.PORT, () => {
 	onServerStarted()
-	console.log(`Server läuft auf https://localhost:${process.env.PORT}`)
+	console.log(`Server läuft auf http://localhost:${process.env.PORT}`)
 })

@@ -1,5 +1,4 @@
 const arp = require('@network-utils/arp-lookup')
-const fs = require("fs")
 
 const { ShellWrapper } = require("./shell.js")
 const { Group } = require("./permissions.js")
@@ -10,14 +9,8 @@ const MAC_PATTERN = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})|([0-9a-fA-F]{4}\.[
 class Connection {
 
     constructor(app, player, spotify, queue, permissions) {
-        this.https = require("https").createServer(
-            {
-                key: fs.readFileSync("ssl/key.pem"),
-                cert: fs.readFileSync("ssl/cert.pem"),
-            },
-            app
-        )
-        this.io = require("socket.io")(this.https)
+        this.http = require("http").Server(app)
+        this.io = require("socket.io")(this.http)
         this.player = player
         this.spotify = spotify
         this.queue = queue
@@ -27,7 +20,7 @@ class Connection {
     }
 
     get() {
-        return this.https
+        return this.http
     }
 
     open() {
@@ -238,7 +231,7 @@ class Connection {
     }
 
     getTag(mac) {
-        if (!mac) { return "????" }
+        if(!mac) { return "????" }
         let cleanedMAC = mac.replace(/:/g, '')
         let lastFourDigits = cleanedMAC.substr(cleanedMAC.length - 4)
         let tag = lastFourDigits.toUpperCase()
