@@ -16,10 +16,10 @@ class ShellWrapper {
 
     setHomeWifi(ssid, passphrase) {
         //https://www.jeffgeerling.com/blog/2021/working-multiple-wifi-interfaces-on-raspberry-pi
-        exec(`sudo sed -i -s "s/^ssid=.*/ssid=${ssid}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
+        exec(`sudo sed -i -s "s/^[[:blank:]]*ssid=.*/\tssid=${ssid}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
             console.log(stderr)
 
-            exec(`sudo sed -i -s "s/^psk=.*/psk=${passphrase}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
+            exec(`sudo sed -i -s "s/^[[:blank:]]*psk=.*/\tpsk=${passphrase}/" ${WPA_SUPPLICANT}`, (error, stdout, stderr) => {
                 console.log(stderr)
                 console.log("[SHELL] Set new SSID " + ssid + " and new passphrase " + passphrase + " for home wifi")
 
